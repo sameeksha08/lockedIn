@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Locked In</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: black;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+
+    input, textarea, button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px;
+      width: 250px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      background: white;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Lock in or be locked in.</h1>
+
+  <!-- CHECK IN -->
+  <div id="checkin">
+    <input id="name" placeholder="Your name">
+    <textarea id="task" placeholder="Your task"></textarea>
+    <input id="time" type="number" placeholder="Time (minutes)">
+    <button onclick="start()">Lock Me In</button>
+  </div>
+
+  <!-- SESSION -->
+  <div id="session" class="hidden">
+    <h2 id="taskText"></h2>
+    <h3 id="timer"></h3>
+    <button onclick="escape()">Attempt Escape</button>
+  </div>
+
+  <!-- RESULT -->
+  <div id="result" class="hidden">
+    <h2 id="message"></h2>
+  </div>
+
+<script>
+let seconds = 0;
+let timerInterval;
+
+function start() {
+  const name = document.getElementById("name").value;
+  const task = document.getElementById("task").value;
+  const time = document.getElementById("time").value;
+
+  if (!name || !task || !time) {
+    alert("Fill everything 😐");
+    return;
+  }
+
+  // switch screens
+  document.getElementById("checkin").classList.add("hidden");
+  document.getElementById("session").classList.remove("hidden");
+
+  document.getElementById("taskText").innerText =
+    name + ", finish: " + task;
+
+  seconds = time * 60;
+
+  timerInterval = setInterval(() => {
+    if (seconds <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("timer").innerText = "Time's up.";
+      return;
+    }
+
+    let m = Math.floor(seconds / 60);
+    let s = seconds % 60;
+
+    document.getElementById("timer").innerText =
+      m + ":" + (s < 10 ? "0" : "") + s;
+
+    seconds--;
+  }, 1000);
+}
+
+function escape() {
+  clearInterval(timerInterval);
+
+  document.getElementById("session").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  if (seconds > 0) {
+    document.getElementById("message").innerText =
+      "🤨 Be honest... you're not done.";
+  } else {
+    document.getElementById("message").innerText =
+      "✅ You’re free. Escape successful.";
+  }
+}
+</script>
+
+</body>
+</html>

@@ -9,12 +9,9 @@
     :root {
       --pink: #FF9EC4;
       --pink-light: #FFD6E8;
-      --pink-pale: #FFF0F7;
       --lilac: #C9A8FF;
       --lilac-light: #EDE0FF;
       --mint: #A8F0D8;
-      --peach: #FFD6A8;
-      --yellow: #FFF0A8;
       --yellow-bright: #FFE566;
       --text: #3D1A40;
       --muted: #B080B8;
@@ -30,7 +27,7 @@
     }
     .bg-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
     .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.4; animation: blobFloat 9s ease-in-out infinite alternate; }
-    @keyframes blobFloat { from { transform: translateY(0) scale(1); } to { transform: translateY(-28px) scale(1.07); } }
+    @keyframes blobFloat { from{transform:translateY(0) scale(1);} to{transform:translateY(-28px) scale(1.07);} }
 
     .screen { display: none; position: relative; z-index: 1; min-height: 100vh; }
     .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 20px; }
@@ -43,7 +40,7 @@
       box-shadow: var(--shadow);
       animation: cardIn 0.55s cubic-bezier(0.34,1.56,0.64,1);
     }
-    @keyframes cardIn { from { opacity:0; transform:translateY(28px) scale(0.94); } to { opacity:1; transform:none; } }
+    @keyframes cardIn { from{opacity:0;transform:translateY(28px) scale(0.94);} to{opacity:1;transform:none;} }
     .logo-emoji { font-size: 46px; display: block; text-align: center; animation: wiggle 2.8s ease-in-out infinite; }
     @keyframes wiggle { 0%,100%{transform:rotate(-7deg);} 50%{transform:rotate(7deg);} }
     .logo {
@@ -64,6 +61,18 @@
     }
     .form-group input:focus, .form-group textarea:focus { border-color: var(--lilac); box-shadow: 0 0 0 3px rgba(201,168,255,0.22); }
     .form-group textarea { height: 76px; }
+
+    .privacy-toggle {
+      display: flex; align-items: center; gap: 10px; margin-top: 8px;
+      background: rgba(255,255,255,0.6); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 10px 14px; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .privacy-toggle:hover { background: rgba(255,255,255,0.85); }
+    .privacy-toggle input[type=checkbox] { width: 18px; height: 18px; accent-color: #C35EFF; cursor: pointer; flex-shrink: 0; }
+    .privacy-toggle span { font-size: 13px; font-weight: 700; color: var(--text); }
+    .privacy-toggle .priv-sub { font-size: 11px; color: var(--muted); font-weight: 600; display: block; margin-top: 1px; }
+
     .mascot-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
     .mascot-opt {
       background: rgba(255,255,255,0.75); border: 2px solid var(--border);
@@ -73,6 +82,7 @@
     .mascot-opt span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 700; }
     .mascot-opt:hover { transform: scale(1.1); border-color: var(--pink); }
     .mascot-opt.selected { border-color: var(--pink); background: var(--pink-light); transform: scale(1.1); box-shadow: 0 4px 14px rgba(255,158,196,0.35); }
+
     .btn-primary {
       width: 100%; margin-top: 22px;
       background: linear-gradient(135deg, #FF6BAE, #C35EFF);
@@ -89,62 +99,86 @@
     .session-top {
       width: 100%; background: rgba(255,255,255,0.82);
       backdrop-filter: blur(20px); border-bottom: 1.5px solid var(--border);
-      padding: 16px 24px; display: flex; align-items: center; gap: 16px;
+      padding: 14px 24px; display: flex; align-items: center; gap: 16px;
       flex-wrap: wrap; z-index: 20; position: relative;
     }
-    .session-logo { font-family: 'Fredoka One', cursive; font-size: 24px;
+    .session-logo { font-family: 'Fredoka One', cursive; font-size: 22px;
       background: linear-gradient(135deg,#FF6BAE,#C35EFF);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; flex-shrink:0; }
     .session-info { flex: 1; min-width: 0; }
     .session-nametask { font-size: 14px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .session-nametask span { color: var(--muted); font-weight: 600; }
-    .timer-pill {
-      background: linear-gradient(135deg,#FF6BAE,#C35EFF); color: white;
-      border-radius: 999px; padding: 10px 20px; flex-shrink: 0;
-    }
-    .timer-digits { font-family: 'Fredoka One', cursive; font-size: 26px; line-height: 1; }
-    .timer-lbl { font-size: 10px; font-weight: 700; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.1em; }
     .btn-escape-top {
       background: white; border: 2px solid #FFB0B0; color: #D04040;
       font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
       padding: 9px 16px; border-radius: 999px; cursor: pointer; transition: all 0.18s; flex-shrink:0;
     }
     .btn-escape-top:hover { background: #FFF0F0; transform: scale(1.04); }
+    .btn-done-early {
+      background: linear-gradient(135deg,#43E89A,#00C9A0); border: none; color: white;
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+      padding: 9px 16px; border-radius: 999px; cursor: pointer; transition: all 0.18s; flex-shrink:0;
+    }
+    .btn-done-early:hover { transform: scale(1.04); opacity: 0.9; }
 
     /* WORLD */
     .world {
       flex: 1; width: 100%; position: relative; overflow: hidden;
       background: linear-gradient(180deg, #FEF5FF 0%, #F2EAFF 55%, #E8FFF5 100%);
-      min-height: 420px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-    /* sky elements */
-    .sky-star { position: absolute; pointer-events: none; font-size: 16px; animation: starTwinkle ease-in-out infinite alternate; }
-    @keyframes starTwinkle { from{opacity:0.25;transform:scale(0.8);} to{opacity:1;transform:scale(1.2);} }
+
+    /* BIG TIMER */
+    .big-timer-wrap {
+      text-align: center; z-index: 10; pointer-events: none;
+      animation: timerFloat 3s ease-in-out infinite alternate;
+    }
+    @keyframes timerFloat { from{transform:translateY(0);} to{transform:translateY(-10px);} }
+    .big-timer-label { font-size: 13px; font-weight: 800; color: var(--muted); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+    .big-timer-digits {
+      font-family: 'Fredoka One', cursive; font-size: clamp(72px, 14vw, 130px);
+      line-height: 1;
+      background: linear-gradient(135deg, #FF6BAE, #C35EFF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 24px rgba(195,94,255,0.25));
+    }
+    .big-timer-digits.urgent {
+      background: linear-gradient(135deg, #FF6060, #FF3030);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .big-timer-sub { font-size: 14px; font-weight: 700; color: var(--muted); margin-top: 6px; }
+
     /* ground */
     .ground {
       position: absolute; bottom:0; left:0; right:0; height: 76px;
       background: linear-gradient(180deg,#C9F0D8,#A8E6BC);
-      border-top: 3px dashed rgba(255,255,255,0.6);
-      z-index: 2;
+      border-top: 3px dashed rgba(255,255,255,0.6); z-index: 2;
     }
-    .ground-flower { position: absolute; font-size: 18px; bottom: 10px; }
 
-    /* clouds */
+    /* sky elements */
+    .sky-star { position: absolute; pointer-events: none; font-size: 16px; animation: starTwinkle ease-in-out infinite alternate; }
+    @keyframes starTwinkle { from{opacity:0.25;transform:scale(0.8);} to{opacity:1;transform:scale(1.2);} }
     .cloud-el {
       position: absolute; background: white; border-radius: 999px;
       opacity: 0.75; animation: cloudDrift linear infinite;
-      box-shadow: 0 4px 16px rgba(201,168,255,0.18);
     }
     @keyframes cloudDrift { from{left:-220px;} to{left:calc(100vw + 220px);} }
+    .ground-flower { position: absolute; font-size: 18px; bottom: 10px; }
 
-    /* MASCOTS ON STAGE */
+    /* MASCOTS */
     .stage-mascot {
       position: absolute; text-align: center; z-index: 5;
       animation: mascotBob ease-in-out infinite alternate;
       transition: left 1.4s cubic-bezier(0.45,0,0.55,1);
-      cursor: default;
     }
     @keyframes mascotBob { from{transform:translateY(0);} to{transform:translateY(-9px);} }
+    .m-task-label {
+      background: linear-gradient(135deg,#FF6BAE,#C35EFF);
+      color: white; border-radius: 8px; padding: 3px 9px;
+      font-size: 10px; font-weight: 800; margin-bottom: 3px;
+      display: inline-block; white-space: nowrap; max-width: 160px;
+      overflow: hidden; text-overflow: ellipsis;
+    }
     .m-nametag {
       background: white; border: 1.5px solid var(--border); border-radius: 10px;
       padding: 4px 10px; font-size: 11px; font-weight: 800; color: var(--text);
@@ -155,11 +189,10 @@
     .m-emoji-big { font-size: 46px; display: block; line-height: 1.1; }
     .m-prop { font-size: 20px; display: block; }
 
-    /* HORSE INSPECTOR */
+    /* HORSE */
     .horse-wrap {
       position: absolute; bottom: 82px; z-index: 30; text-align: center;
-      pointer-events: none;
-      transition: left 0.9s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none; transition: left 0.9s cubic-bezier(0.22,1,0.36,1);
     }
     .horse-speech {
       background: var(--yellow-bright); border: 2px solid #F0CC00;
@@ -172,7 +205,17 @@
     .horse-emoji-el { font-size: 54px; display: block; animation: horseGallop 0.35s ease infinite alternate; }
     @keyframes horseGallop { from{transform:translateY(0) rotate(-4deg);} to{transform:translateY(-7px) rotate(4deg);} }
 
-    /* ===== ESCAPE SCREEN ===== */
+    /* online count */
+    .online-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.7); border: 1.5px solid var(--border);
+      border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 700;
+      color: var(--text);
+    }
+    .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #43E89A; animation: pulse 1.5s ease infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+    /* ===== ESCAPE ===== */
     #screen-escape { background: linear-gradient(135deg,#FFE8F5,#F0E8FF); }
     .escape-card {
       background: var(--card); backdrop-filter: blur(20px);
@@ -188,78 +231,46 @@
       -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:10px; }
     .escape-msg { font-size:15px; color:var(--muted); line-height:1.65; margin-bottom:28px; font-weight:600; }
     .btn-row { display:flex; gap:12px; }
-    .btn-back {
-      flex:1; background:white; border:2px solid var(--lilac); color:var(--text);
-      font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
-      padding:13px; border-radius:14px; cursor:pointer; transition:all 0.18s;
-    }
+    .btn-back { flex:1; background:white; border:2px solid var(--lilac); color:var(--text); font-family:'Nunito',sans-serif; font-size:14px; font-weight:800; padding:13px; border-radius:14px; cursor:pointer; transition:all 0.18s; }
     .btn-back:hover { background:var(--lilac-light); }
-    .btn-confirm-escape {
-      flex:1; background:linear-gradient(135deg,#FFB0B0,#FF6060); border:none;
-      color:white; font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
-      padding:13px; border-radius:14px; cursor:pointer; transition:opacity 0.18s;
-    }
+    .btn-confirm-escape { flex:1; background:linear-gradient(135deg,#FFB0B0,#FF6060); border:none; color:white; font-family:'Nunito',sans-serif; font-size:14px; font-weight:800; padding:13px; border-radius:14px; cursor:pointer; transition:opacity 0.18s; }
     .btn-confirm-escape:hover { opacity:0.88; }
 
-    /* ===== JAIL OVERLAY ===== */
-    .jail-overlay {
-      position: fixed; inset:0; background:rgba(60,10,70,0.55);
-      z-index:200; display:none; align-items:center; justify-content:center;
-    }
+    /* ===== JAIL ===== */
+    .jail-overlay { position:fixed; inset:0; background:rgba(60,10,70,0.55); z-index:200; display:none; align-items:center; justify-content:center; }
     .jail-overlay.show { display:flex; }
-    .jail-box {
-      background: white; border-radius: 28px; padding: 44px 36px;
-      text-align: center; max-width: 360px; width: 90%;
-      animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    .jail-box { background:white; border-radius:28px; padding:44px 36px; text-align:center; max-width:360px; width:90%; animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     .jail-bars { font-size:14px; letter-spacing:7px; color:#aaa; margin-bottom:8px; }
-    .jail-mascot-el { font-size:70px; display:block; margin-bottom:8px; filter:grayscale(0.3) saturate(0.7); animation:jailShake 0.6s ease-in-out; }
+    .jail-mascot-el { font-size:70px; display:block; margin-bottom:8px; filter:grayscale(0.4) saturate(0.7); animation:jailShake 0.6s ease-in-out; }
     .jail-title { font-family:'Fredoka One',cursive; font-size:38px; color:#666; margin-bottom:8px; }
     .jail-msg { font-size:14px; color:#999; font-weight:600; line-height:1.5; margin-bottom:22px; }
-    .btn-jail-shame {
-      background: linear-gradient(135deg,#e0e0e0,#c0c0c0); border:none; color:#555;
-      font-family:'Nunito',sans-serif; font-weight:800; font-size:15px;
-      padding:13px 30px; border-radius:14px; cursor:pointer; transition:opacity 0.2s;
-    }
-    .btn-jail-shame:hover { opacity:0.85; }
+    .btn-jail-shame { background:linear-gradient(135deg,#e0e0e0,#c0c0c0); border:none; color:#555; font-family:'Nunito',sans-serif; font-weight:800; font-size:15px; padding:13px 30px; border-radius:14px; cursor:pointer; }
 
-    /* ===== DONE SCREEN ===== */
-    #screen-done { }
-    .done-card {
-      background: var(--card); backdrop-filter:blur(20px);
-      border:1.5px solid var(--border); border-radius:28px;
-      padding:44px 36px; max-width:440px; width:100%;
-      text-align:center; box-shadow:var(--shadow);
-      animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    /* ===== DONE ===== */
+    .done-card { background:var(--card); backdrop-filter:blur(20px); border:1.5px solid var(--border); border-radius:28px; padding:44px 36px; max-width:440px; width:100%; text-align:center; box-shadow:var(--shadow); animation:cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     .done-confetti-row { font-size:28px; letter-spacing:4px; margin-bottom:14px; }
-    .done-mascot-big { font-size:80px; display:block; margin-bottom:8px; animation: winnerpop 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+    .done-mascot-big { font-size:80px; display:block; margin-bottom:8px; animation:winnerpop 0.6s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes winnerpop { from{transform:scale(0) rotate(-20deg);} to{transform:scale(1) rotate(0);} }
-    .done-title {
-      font-family:'Fredoka One',cursive; font-size:56px; line-height:1; margin-bottom:8px;
-      background:linear-gradient(135deg,#43E89A,#00C9A0);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
-    .done-title.escaped {
-      background:linear-gradient(135deg,#FF6BAE,#FF3030);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    }
+    .done-title { font-family:'Fredoka One',cursive; font-size:56px; line-height:1; margin-bottom:8px; background:linear-gradient(135deg,#43E89A,#00C9A0); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+    .done-title.escaped { background:linear-gradient(135deg,#FF6BAE,#FF3030); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
     .done-msg { font-size:15px; color:var(--muted); line-height:1.65; font-weight:600; margin-bottom:10px; }
     .done-time { font-family:'Fredoka One',cursive; font-size:22px; color:var(--text); margin-bottom:28px; }
-    .btn-again {
-      background: linear-gradient(135deg,#FF6BAE,#C35EFF); color:white;
-      font-family:'Fredoka One',cursive; font-size:22px; letter-spacing:0.06em;
-      border:none; border-radius:16px; padding:14px 40px; cursor:pointer;
-      box-shadow:0 6px 20px rgba(195,94,255,0.3); transition:transform 0.15s;
-    }
+    .btn-again { background:linear-gradient(135deg,#FF6BAE,#C35EFF); color:white; font-family:'Fredoka One',cursive; font-size:22px; letter-spacing:0.06em; border:none; border-radius:16px; padding:14px 40px; cursor:pointer; box-shadow:0 6px 20px rgba(195,94,255,0.3); transition:transform 0.15s; }
     .btn-again:hover { transform:translateY(-2px); }
 
-    /* confetti pieces */
-    .confetti-piece {
-      position:fixed; top:-20px; pointer-events:none; z-index:999;
-      animation: confettiFall linear forwards;
-    }
+    /* confetti */
+    .confetti-piece { position:fixed; top:-20px; pointer-events:none; z-index:999; animation:confettiFall linear forwards; }
     @keyframes confettiFall { to{transform:translateY(110vh) rotate(720deg);opacity:0;} }
+
+    /* firebase error banner */
+    .firebase-error {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #fff0f0; border: 2px solid #ffb0b0; border-radius: 14px;
+      padding: 12px 20px; font-size: 13px; font-weight: 700; color: #c04040;
+      z-index: 500; display: none; text-align: center; max-width: 340px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+    .firebase-error.show { display: block; }
   </style>
 </head>
 <body>
@@ -276,13 +287,21 @@
     <span class="logo-emoji">🔒</span>
     <div class="logo">LOCKED IN</div>
     <div class="tagline">give us a task. give us a time. ✨</div>
+
     <div class="form-group">
       <label>Your name ✨</label>
-      <input id="inp-name" placeholder="e.g. Emily" autocomplete="off">
+      <input id="inp-name" placeholder="e.g. Priya" autocomplete="off">
     </div>
     <div class="form-group">
       <label>What are you working on? 📚</label>
-      <textarea id="inp-task" placeholder="e.g. Write the 500 words of my essay I definitely haven't started yet"></textarea>
+      <textarea id="inp-task" placeholder="e.g. Write the 500 words of my essay I definitely haven't started"></textarea>
+      <label class="privacy-toggle" style="margin-top:8px">
+        <input type="checkbox" id="inp-show-task" checked>
+        <div>
+          <span>Show my task to others 👀</span>
+          <span class="priv-sub">Uncheck to keep your task private</span>
+        </div>
+      </label>
     </div>
     <div class="form-group">
       <label>How long do you need? (minutes) ⏱</label>
@@ -303,14 +322,18 @@
     <div class="session-info">
       <div class="session-nametask" id="sNameTask"></div>
     </div>
-    <div class="timer-pill">
-      <div class="timer-digits" id="timerDigits">--:--</div>
-      <div class="timer-lbl">remaining</div>
-    </div>
+    <span id="onlinePill" class="online-pill"><span class="online-dot"></span><span id="onlineCount">1</span> locked in</span>
+    <button class="btn-done-early" onclick="finishEarly()">✅ I'm Done!</button>
     <button class="btn-escape-top" onclick="showEscape()">Attempt Escape 🚪</button>
   </div>
   <div class="world" id="world">
-    <div class="ground" id="ground"><div id="groundFlowers"></div></div>
+    <!-- big timer -->
+    <div class="big-timer-wrap">
+      <div class="big-timer-label">time remaining</div>
+      <div class="big-timer-digits" id="timerDigits">--:--</div>
+      <div class="big-timer-sub" id="timerSub">stay locked in 🔒</div>
+    </div>
+    <div class="ground" id="ground"></div>
   </div>
 </div>
 
@@ -327,13 +350,13 @@
   </div>
 </div>
 
-<!-- JAIL OVERLAY -->
+<!-- JAIL -->
 <div class="jail-overlay" id="jailOverlay">
   <div class="jail-box">
     <div class="jail-bars">| | | | | | |</div>
     <span class="jail-mascot-el" id="jailMascot">🦆</span>
     <div class="jail-title">You're in jail.</div>
-    <div class="jail-msg" id="jailMsg">The task remains. The guilt remains.</div>
+    <div class="jail-msg" id="jailMsg">The task remains. The guilt is permanent.</div>
     <button class="btn-jail-shame" onclick="doEscape()">Walk of shame 🚶‍♀️</button>
   </div>
 </div>
@@ -350,313 +373,394 @@
   </div>
 </div>
 
-<script>
-const MASCOTS = [
-  {emoji:"🦆",name:"Ducky"},
-  {emoji:"🐸",name:"Froggy"},
-  {emoji:"🐼",name:"Panda"},
-  {emoji:"🦊",name:"Foxie"},
-  {emoji:"🐱",name:"Kitty"},
-  {emoji:"🐝",name:"Beezy"},
-  {emoji:"🦄",name:"Uni"},
-  {emoji:"🐨",name:"Koala"},
-  {emoji:"🐰",name:"Bunny"},
-  {emoji:"🦋",name:"Flutter"},
-];
-const ACTIVITIES = [
-  {icon:"💻",label:"typing away"},
-  {icon:"📚",label:"deep reading"},
-  {icon:"✏️",label:"taking notes"},
-  {icon:"🎧",label:"in the zone"},
-  {icon:"📝",label:"writing"},
-  {icon:"☕",label:"caffeinated"},
-  {icon:"🔍",label:"researching"},
-  {icon:"💡",label:"thinking hard"},
-];
-const HORSE_MSGS = [
-  "👀 Still working? I'm watching.",
-  "🐴 Neigh-bour check! How's it going?",
-  "Still here? Proud of you bestie 💖",
-  "Focus check! Stay locked in!! 🔒",
-  "🐴 I galloped all the way to check on you.",
-  "You're doing great! Keep going! 💪",
-  "Less scrolling, more doing. 👁️",
-  "🐴 Your future self says THANK YOU.",
-  "No sneaking off! I'll know. 🐴",
-  "Almost there! Don't you dare quit. 🌸",
-];
-const ESCAPE_MSGS = [
-  "Be honest with yourself. You came here to actually do the thing. Are you really done, or just bored? 👀",
-  "The timer still has time on it. The task is still unfinished. The vibes are off. Stay. 🙏",
-  "Your future self is literally begging you. Five more minutes, babe.",
-  "You literally just got here!! Come on. You can do this. 💕",
-  "Think about how good it'll feel to finish. Now go finish. 💪",
-];
-const DONE_MSGS = [
-  "Finished before the timer?? Who ARE you right now. Absolute legend. ✨",
-  "Look at you! All done and everything. We're so proud it's embarrassing. 🌸",
-  "Task complete. You may now rot in peace. 🫶",
-  "You came, you saw, you actually did the thing. Iconic behaviour.",
-  "Done AND on time? Honestly unhinged. We love to see it. 🏆",
-];
-const FAKE_FRIENDS = [
-  {name:"Aisha",mascot:{emoji:"🐝",name:"Beezy"}},
-  {name:"Cleo",mascot:{emoji:"🦄",name:"Uni"}},
-  {name:"Marcus",mascot:{emoji:"🐨",name:"Koala"}},
-];
+<div class="firebase-error" id="firebaseError">
+  ⚠️ Couldn't connect to Firebase. Check your database URL or rules.
+</div>
 
-let selectedMascot = MASCOTS[0];
-let sessionData = {};
-let timerInterval = null, stageInterval = null, horseTimeout = null;
-let secondsLeft = 0, totalSeconds = 0;
-let stagePeeps = []; // {id, name, mascot, x, direction, activity, isMe}
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getDatabase, ref, set, onValue, remove, serverTimestamp, onDisconnect }
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-// ---- SETUP ----
-function buildMascotGrid() {
-  const grid = document.getElementById("mascotGrid");
-  MASCOTS.forEach((m,i) => {
-    const el = document.createElement("div");
-    el.className = "mascot-opt" + (i===0?" selected":"");
-    el.innerHTML = m.emoji + '<span>' + m.name + '</span>';
-    el.onclick = () => {
-      document.querySelectorAll(".mascot-opt").forEach(x=>x.classList.remove("selected"));
-      el.classList.add("selected"); selectedMascot = m;
-    };
-    grid.appendChild(el);
-  });
-}
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
+  // ── CONFIG ──────────────────────────────────────────────
+  const firebaseConfig = {
+    projectId: "locked-in-dadc1",
+    databaseURL: "https://locked-in-dadc1-default-rtdb.firebaseio.com",
+  };
+  // ────────────────────────────────────────────────────────
 
-// ---- START ----
-function startSession() {
-  const name = document.getElementById("inp-name").value.trim();
-  const task = document.getElementById("inp-task").value.trim();
-  const mins = parseInt(document.getElementById("inp-time").value);
-  if (!name||!task||!mins||mins<1) { alert("Fill everything in! 🙏"); return; }
-  sessionData = {name, task, mascot: selectedMascot, totalMins: mins};
-  totalSeconds = mins * 60;
-  secondsLeft = totalSeconds;
-  document.getElementById("sNameTask").innerHTML =
-    selectedMascot.emoji + " <strong>" + name + "</strong> <span>— " + task + "</span>";
-  updateTimerDisplay();
-  buildWorld();
-  startTimerCountdown();
-  scheduleHorse();
-  showScreen("screen-session");
-}
+  const MASCOTS = [
+    {emoji:"🦆",name:"Ducky"},{emoji:"🐸",name:"Froggy"},{emoji:"🐼",name:"Panda"},
+    {emoji:"🦊",name:"Foxie"},{emoji:"🐱",name:"Kitty"},{emoji:"🐝",name:"Beezy"},
+    {emoji:"🦄",name:"Uni"},{emoji:"🐨",name:"Koala"},{emoji:"🐰",name:"Bunny"},
+    {emoji:"🦋",name:"Flutter"},
+  ];
+  const ACTIVITIES = [
+    {icon:"💻",label:"typing away"},{icon:"📚",label:"deep reading"},
+    {icon:"✏️",label:"taking notes"},{icon:"🎧",label:"in the zone"},
+    {icon:"📝",label:"writing"},{icon:"☕",label:"caffeinated"},
+    {icon:"🔍",label:"researching"},{icon:"💡",label:"thinking hard"},
+  ];
+  const HORSE_MSGS = [
+    "👀 Still working? I'm watching.","🐴 Neigh-bour check! How's it going?",
+    "Still here? Proud of you bestie 💖","Focus check! Stay locked in!! 🔒",
+    "🐴 I galloped all the way to check on you.","You're doing great! Keep going! 💪",
+    "Less scrolling, more doing. 👁️","🐴 Your future self says THANK YOU.",
+    "No sneaking off! I'll know. 🐴","Almost there! Don't you dare quit. 🌸",
+  ];
+  const ESCAPE_MSGS = [
+    "Be honest with yourself. You came here to actually do the thing. Are you really done, or just bored? 👀",
+    "The timer still has time on it. The task is still unfinished. Stay. 🙏",
+    "Your future self is literally begging you. Five more minutes, babe.",
+    "You literally just got here!! Come on. You can do this. 💕",
+    "Think about how good it'll feel to finish. Now go finish. 💪",
+  ];
+  const DONE_MSGS = [
+    "Finished before the timer?? Who ARE you right now. Absolute legend. ✨",
+    "Look at you! All done and everything. We're so proud it's embarrassing. 🌸",
+    "Task complete. You may now rot in peace. 🫶",
+    "You came, you saw, you actually did the thing. Iconic behaviour.",
+    "Done AND on time? Honestly unhinged. We love to see it. 🏆",
+  ];
 
-// ---- WORLD ----
-function buildWorld() {
-  const world = document.getElementById("world");
-  world.querySelectorAll(".sky-star,.cloud-el,.stage-mascot,.horse-wrap").forEach(e=>e.remove());
+  let app, db, myRef;
+  let selectedMascot = MASCOTS[0];
+  let sessionData = {};
+  let timerInterval = null, stageInterval = null, horseTimeout = null;
+  let secondsLeft = 0, totalSeconds = 0;
+  let mySessionId = null;
+  let allPeeps = {}; // live from Firebase
+  let peepPositions = {}; // {id: {x, direction, activity}}
 
-  // sparkle stars
-  ["✨","⭐","💫","🌸","💕","🌟","✨","💫"].forEach((s,i) => {
-    const el = document.createElement("div");
-    el.className = "sky-star";
-    el.textContent = s;
-    el.style.cssText = `left:${6+Math.random()*88}%;top:${4+Math.random()*50}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*2}s;`;
-    world.appendChild(el);
-  });
-
-  // clouds
-  for (let i=0;i<3;i++) {
-    const el = document.createElement("div");
-    el.className = "cloud-el";
-    const w = 90+Math.random()*60;
-    el.style.cssText = `width:${w}px;height:${w*0.42}px;top:${8+Math.random()*22}%;animation-duration:${24+i*9}s;animation-delay:${-i*8}s;`;
-    world.appendChild(el);
+  // ── INIT FIREBASE ──
+  try {
+    app = initializeApp(firebaseConfig);
+    db = getDatabase(app);
+  } catch(e) {
+    document.getElementById("firebaseError").classList.add("show");
+    console.error("Firebase init error:", e);
   }
 
-  // ground flowers
-  const gf = document.getElementById("groundFlowers");
-  gf.innerHTML = "";
-  const flowerEmojis = ["🌸","🌼","🌺","🌻","💐","🌷"];
-  for (let i=0;i<12;i++) {
-    const f = document.createElement("div");
-    f.className = "ground-flower";
-    f.textContent = flowerEmojis[Math.floor(Math.random()*flowerEmojis.length)];
-    f.style.left = (4+i*8+Math.random()*4) + "%";
-    gf.appendChild(f);
-  }
-
-  // stage peeps
-  stagePeeps = [];
-  const worldW = world.offsetWidth || window.innerWidth;
-  const spacing = worldW / (FAKE_FRIENDS.length + 2);
-
-  // add real user
-  stagePeeps.push({
-    id:"me", name: sessionData.name + " (you)",
-    mascot: sessionData.mascot, isMe: true,
-    x: spacing, direction: 1,
-    activity: getRandActivity(),
-  });
-  // add fake friends
-  FAKE_FRIENDS.forEach((f,i) => {
-    stagePeeps.push({
-      id:"fake"+i, name:f.name,
-      mascot:f.mascot, isMe:false,
-      x: spacing*(i+2), direction: i%2===0?1:-1,
-      activity: getRandActivity(),
+  // ── MASCOT GRID ──
+  function buildMascotGrid() {
+    const grid = document.getElementById("mascotGrid");
+    MASCOTS.forEach((m,i) => {
+      const el = document.createElement("div");
+      el.className = "mascot-opt" + (i===0?" selected":"");
+      el.innerHTML = m.emoji + '<span>' + m.name + '</span>';
+      el.onclick = () => {
+        document.querySelectorAll(".mascot-opt").forEach(x=>x.classList.remove("selected"));
+        el.classList.add("selected"); selectedMascot = m;
+      };
+      grid.appendChild(el);
     });
-  });
-
-  renderMascots();
-  clearInterval(stageInterval);
-  stageInterval = setInterval(movePeeps, 2200);
-}
-
-function getRandActivity() { return ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)]; }
-
-function movePeeps() {
-  const worldW = (document.getElementById("world").offsetWidth)||window.innerWidth;
-  stagePeeps.forEach(p => {
-    if (Math.random()>0.35) {
-      const step = 25+Math.random()*55;
-      p.x += p.direction * step;
-      if (p.x > worldW-90) { p.x = worldW-90; p.direction=-1; }
-      if (p.x < 20) { p.x=20; p.direction=1; }
-    }
-    if (Math.random()>0.65) p.activity = getRandActivity();
-  });
-  renderMascots();
-}
-
-function renderMascots() {
-  const world = document.getElementById("world");
-  world.querySelectorAll(".stage-mascot").forEach(e=>e.remove());
-  stagePeeps.forEach((p,i) => {
-    const el = document.createElement("div");
-    el.className = "stage-mascot";
-    el.style.left = p.x + "px";
-    el.style.bottom = "80px";
-    el.style.animationDuration = (2.2+i*0.35)+"s";
-    el.style.animationDelay = (i*0.2)+"s";
-    el.style.transform = p.direction < 0 ? "scaleX(-1)" : "";
-    el.innerHTML = `
-      <div style="transform:${p.direction<0?'scaleX(-1)':''}">
-        <div class="m-nametag">${p.name}</div>
-        <div class="m-activity">${p.activity.icon} ${p.activity.label}</div>
-        <span class="m-emoji-big">${p.mascot.emoji}</span>
-        <span class="m-prop">🪑</span>
-      </div>`;
-    world.appendChild(el);
-  });
-}
-
-// ---- HORSE ----
-function scheduleHorse() {
-  clearTimeout(horseTimeout);
-  const delay = (18 + Math.random()*45)*1000;
-  horseTimeout = setTimeout(doHorseVisit, delay);
-}
-function doHorseVisit() {
-  if (secondsLeft<=0) return;
-  const world = document.getElementById("world");
-  const worldW = world.offsetWidth || window.innerWidth;
-  const msg = HORSE_MSGS[Math.floor(Math.random()*HORSE_MSGS.length)];
-  world.querySelectorAll(".horse-wrap").forEach(e=>e.remove());
-  const wrap = document.createElement("div");
-  wrap.className = "horse-wrap";
-  wrap.style.left = "-140px";
-  wrap.innerHTML = `<div class="horse-speech">${msg}</div><span class="horse-emoji-el">🐴</span>`;
-  world.appendChild(wrap);
-  setTimeout(()=>{ wrap.style.left = (60+Math.random()*(worldW-260))+"px"; }, 50);
-  setTimeout(()=>{
-    wrap.style.left = (worldW+200)+"px";
-    setTimeout(()=>wrap.remove(), 1000);
-  }, 4800);
-  const next = (28+Math.random()*55)*1000;
-  horseTimeout = setTimeout(doHorseVisit, next);
-}
-
-// ---- TIMER ----
-function startTimerCountdown() {
-  clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    if (secondsLeft<=0) {
-      clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
-      showDoneScreen(true); return;
-    }
-    secondsLeft--; updateTimerDisplay();
-  },1000);
-}
-function updateTimerDisplay() {
-  const m=Math.floor(secondsLeft/60), s=secondsLeft%60;
-  document.getElementById("timerDigits").textContent = m+":"+(s<10?"0":"")+s;
-}
-
-// ---- ESCAPE ----
-function showEscape() {
-  document.getElementById("escapeEmoji").textContent = sessionData.mascot.emoji;
-  document.getElementById("escapeMsg").textContent = ESCAPE_MSGS[Math.floor(Math.random()*ESCAPE_MSGS.length)];
-  showScreen("screen-escape");
-}
-function goBack() { showScreen("screen-session"); }
-function confirmEscape() {
-  document.getElementById("jailMascot").textContent = sessionData.mascot.emoji;
-  document.getElementById("jailMsg").textContent =
-    sessionData.name + "'s " + sessionData.mascot.name + " has been arrested. The task remains unfinished. No bail. 🔒";
-  document.getElementById("jailOverlay").classList.add("show");
-}
-function doEscape() {
-  document.getElementById("jailOverlay").classList.remove("show");
-  clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
-  document.getElementById("doneConfetti").textContent = "😔💔😔💔😔";
-  document.getElementById("doneMascot").textContent = sessionData.mascot.emoji+"🚔";
-  const t = document.getElementById("doneTitle");
-  t.textContent = "ESCAPED."; t.className="done-title escaped";
-  document.getElementById("doneMsg").textContent = "The task remains. The guilt is permanent. The mascot is in jail. You know what you must do.";
-  document.getElementById("doneTime").textContent = "";
-  showScreen("screen-done");
-}
-
-// ---- DONE ----
-function showDoneScreen(timeUp) {
-  clearInterval(stageInterval); clearTimeout(horseTimeout);
-  launchConfetti();
-  const elapsed = totalSeconds - secondsLeft;
-  const m=Math.floor(elapsed/60), s=elapsed%60;
-  document.getElementById("doneConfetti").textContent = "🎉✨🏆✨🎉";
-  document.getElementById("doneMascot").textContent = sessionData.mascot.emoji+"🏆";
-  const t = document.getElementById("doneTitle");
-  t.textContent = "YOU DID IT!"; t.className="done-title";
-  document.getElementById("doneMsg").textContent = DONE_MSGS[Math.floor(Math.random()*DONE_MSGS.length)];
-  document.getElementById("doneTime").textContent = "Locked in for "+m+"m "+s+"s 🔥";
-  showScreen("screen-done");
-}
-function launchConfetti() {
-  const pieces=["🎉","✨","🌸","💕","⭐","🎊","💖","🌟","🦄","🌈"];
-  for (let i=0;i<28;i++) {
-    setTimeout(()=>{
-      const el=document.createElement("div");
-      el.className="confetti-piece";
-      el.textContent=pieces[Math.floor(Math.random()*pieces.length)];
-      el.style.left=Math.random()*100+"vw";
-      el.style.animationDuration=(1.4+Math.random()*2.2)+"s";
-      el.style.animationDelay=Math.random()*0.6+"s";
-      el.style.fontSize=(14+Math.random()*20)+"px";
-      document.body.appendChild(el);
-      setTimeout(()=>el.remove(),3800);
-    },i*55);
   }
-}
 
-function resetAll() {
-  clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
-  document.getElementById("inp-name").value="";
-  document.getElementById("inp-task").value="";
-  document.getElementById("inp-time").value="";
-  selectedMascot=MASCOTS[0];
-  document.querySelectorAll(".mascot-opt").forEach((el,i)=>el.classList.toggle("selected",i===0));
-  showScreen("screen-checkin");
-}
+  function showScreen(id) {
+    document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+  window.showScreen = showScreen;
 
-buildMascotGrid();
+  // ── START SESSION ──
+  window.startSession = async function() {
+    const name = document.getElementById("inp-name").value.trim();
+    const task = document.getElementById("inp-task").value.trim();
+    const mins = parseInt(document.getElementById("inp-time").value);
+    const showTask = document.getElementById("inp-show-task").checked;
+    if (!name||!task||!mins||mins<1) { alert("Fill everything in! 🙏"); return; }
+
+    sessionData = {name, task, mascot: selectedMascot, totalMins: mins, showTask};
+    totalSeconds = mins * 60;
+    secondsLeft = totalSeconds;
+    mySessionId = "user_" + Date.now() + "_" + Math.random().toString(36).slice(2,7);
+
+    // save to Firebase
+    if (db) {
+      myRef = ref(db, "sessions/" + mySessionId);
+      const payload = {
+        name,
+        task: showTask ? task : "🔒 Private",
+        showTask,
+        mascotEmoji: selectedMascot.emoji,
+        mascotName: selectedMascot.name,
+        startedAt: serverTimestamp(),
+        totalSeconds,
+        secondsLeft: totalSeconds,
+        status: "active", // active | done | escaped
+      };
+      try {
+        await set(myRef, payload);
+        // auto-remove when user disconnects
+        onDisconnect(myRef).remove();
+      } catch(e) {
+        document.getElementById("firebaseError").classList.add("show");
+        console.error("Firebase write error:", e);
+      }
+
+      // listen to all sessions
+      const sessionsRef = ref(db, "sessions");
+      onValue(sessionsRef, snap => {
+        allPeeps = snap.val() || {};
+        renderWorld();
+        updateOnlineCount();
+      });
+    }
+
+    document.getElementById("sNameTask").innerHTML =
+      selectedMascot.emoji + " <strong>" + name + "</strong>" +
+      (showTask ? " <span>— " + task + "</span>" : "");
+
+    updateTimerDisplay();
+    buildWorldScaffold();
+    startTimerCountdown();
+    scheduleHorse();
+    showScreen("screen-session");
+  };
+
+  // ── TIMER ──
+  function startTimerCountdown() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(async () => {
+      if (secondsLeft <= 0) {
+        clearInterval(timerInterval);
+        clearInterval(stageInterval);
+        clearTimeout(horseTimeout);
+        await markStatus("done");
+        showDoneScreen();
+        return;
+      }
+      secondsLeft--;
+      updateTimerDisplay();
+      // update Firebase every 15s to save writes
+      if (secondsLeft % 15 === 0 && myRef) {
+        try { await set(ref(db, "sessions/" + mySessionId + "/secondsLeft"), secondsLeft); } catch(e){}
+      }
+    }, 1000);
+  }
+
+  function updateTimerDisplay() {
+    const m = Math.floor(secondsLeft/60), s = secondsLeft%60;
+    const el = document.getElementById("timerDigits");
+    el.textContent = m + ":" + (s<10?"0":"") + s;
+    el.className = "big-timer-digits" + (secondsLeft < 60 ? " urgent" : "");
+    const sub = document.getElementById("timerSub");
+    if (secondsLeft < 60) sub.textContent = "almost there!! 🔥";
+    else if (secondsLeft < totalSeconds*0.25) sub.textContent = "final stretch 💪";
+    else sub.textContent = "stay locked in 🔒";
+  }
+
+  async function markStatus(status) {
+    if (!myRef) return;
+    try { await set(ref(db, "sessions/" + mySessionId + "/status"), status); } catch(e){}
+  }
+
+  // ── WORLD SCAFFOLD (static bg elements) ──
+  function buildWorldScaffold() {
+    const world = document.getElementById("world");
+    world.querySelectorAll(".sky-star,.cloud-el,.stage-mascot,.horse-wrap").forEach(e=>e.remove());
+
+    ["✨","⭐","💫","🌸","💕","🌟","✨","💫"].forEach((s,i) => {
+      const el = document.createElement("div");
+      el.className = "sky-star";
+      el.textContent = s;
+      el.style.cssText = `left:${6+Math.random()*88}%;top:${4+Math.random()*42}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*2}s;`;
+      world.appendChild(el);
+    });
+
+    for (let i=0;i<3;i++) {
+      const el = document.createElement("div");
+      el.className = "cloud-el";
+      const w = 90+Math.random()*60;
+      el.style.cssText = `width:${w}px;height:${w*0.42}px;top:${6+Math.random()*20}%;animation-duration:${24+i*9}s;animation-delay:${-i*8}s;`;
+      world.appendChild(el);
+    }
+
+    const gnd = document.getElementById("ground");
+    gnd.innerHTML = "";
+    const flowers = ["🌸","🌼","🌺","🌻","💐","🌷"];
+    for (let i=0;i<12;i++) {
+      const f = document.createElement("div");
+      f.className = "ground-flower";
+      f.textContent = flowers[Math.floor(Math.random()*flowers.length)];
+      f.style.left = (4+i*8+Math.random()*3)+"%";
+      gnd.appendChild(f);
+    }
+
+    clearInterval(stageInterval);
+    stageInterval = setInterval(movePeeps, 2200);
+  }
+
+  // ── RENDER WORLD (from Firebase data) ──
+  function renderWorld() {
+    const world = document.getElementById("world");
+    world.querySelectorAll(".stage-mascot").forEach(e=>e.remove());
+    const worldW = world.offsetWidth || window.innerWidth;
+
+    Object.entries(allPeeps).forEach(([id, peep], i) => {
+      if (!peep || peep.status === "escaped") return; // don't show escaped
+
+      // init position for new peep
+      if (!peepPositions[id]) {
+        peepPositions[id] = {
+          x: 60 + Math.random() * (worldW - 200),
+          direction: Math.random()>0.5?1:-1,
+          activity: ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)],
+        };
+      }
+      const pos = peepPositions[id];
+      const isMe = id === mySessionId;
+      const isDone = peep.status === "done";
+
+      const el = document.createElement("div");
+      el.className = "stage-mascot";
+      el.style.left = pos.x + "px";
+      el.style.bottom = "80px";
+      el.style.animationDuration = (2.2 + i*0.3) + "s";
+      el.style.animationDelay = (i*0.15) + "s";
+      el.style.opacity = isDone ? "0.55" : "1";
+
+      const taskLine = peep.task && peep.task !== "🔒 Private"
+        ? `<div class="m-task-label">${peep.task.length>30 ? peep.task.slice(0,28)+"…" : peep.task}</div>`
+        : peep.task === "🔒 Private" ? `<div class="m-task-label">🔒 Private</div>` : "";
+
+      const trophy = isDone ? "🏆" : "";
+      const nameLabel = peep.name + (isMe ? " (you)" : "") + trophy;
+
+      el.innerHTML = `
+        <div>
+          ${taskLine}
+          <div class="m-nametag">${nameLabel}</div>
+          <div class="m-activity">${pos.activity.icon} ${pos.activity.label}</div>
+          <span class="m-emoji-big">${peep.mascotEmoji || "🦆"}</span>
+          <span class="m-prop">${isDone ? "🎉" : "🪑"}</span>
+        </div>`;
+      world.appendChild(el);
+    });
+  }
+
+  function movePeeps() {
+    const worldW = (document.getElementById("world").offsetWidth) || window.innerWidth;
+    Object.keys(peepPositions).forEach(id => {
+      const pos = peepPositions[id];
+      if (Math.random()>0.4) {
+        pos.x += pos.direction * (22+Math.random()*50);
+        if (pos.x > worldW-100) { pos.x = worldW-100; pos.direction=-1; }
+        if (pos.x < 20) { pos.x=20; pos.direction=1; }
+      }
+      if (Math.random()>0.65) pos.activity = ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)];
+    });
+    renderWorld();
+  }
+
+  function updateOnlineCount() {
+    const active = Object.values(allPeeps).filter(p=>p&&p.status==="active").length;
+    document.getElementById("onlineCount").textContent = active || 1;
+  }
+
+  // ── HORSE ──
+  function scheduleHorse() {
+    clearTimeout(horseTimeout);
+    horseTimeout = setTimeout(doHorseVisit, (18+Math.random()*45)*1000);
+  }
+  function doHorseVisit() {
+    if (secondsLeft<=0) return;
+    const world = document.getElementById("world");
+    const worldW = world.offsetWidth || window.innerWidth;
+    const msg = HORSE_MSGS[Math.floor(Math.random()*HORSE_MSGS.length)];
+    world.querySelectorAll(".horse-wrap").forEach(e=>e.remove());
+    const wrap = document.createElement("div");
+    wrap.className = "horse-wrap";
+    wrap.style.left = "-140px";
+    wrap.innerHTML = `<div class="horse-speech">${msg}</div><span class="horse-emoji-el">🐴</span>`;
+    world.appendChild(wrap);
+    setTimeout(()=>{ wrap.style.left=(60+Math.random()*(worldW-280))+"px"; },50);
+    setTimeout(()=>{
+      wrap.style.left=(worldW+200)+"px";
+      setTimeout(()=>wrap.remove(),1000);
+    },4800);
+    horseTimeout = setTimeout(doHorseVisit, (28+Math.random()*55)*1000);
+  }
+  window.doHorseVisit = doHorseVisit;
+
+  // ── ESCAPE ──
+  window.showEscape = function() {
+    document.getElementById("escapeEmoji").textContent = sessionData.mascot.emoji;
+    document.getElementById("escapeMsg").textContent = ESCAPE_MSGS[Math.floor(Math.random()*ESCAPE_MSGS.length)];
+    showScreen("screen-escape");
+  };
+  window.goBack = function() { showScreen("screen-session"); };
+  window.confirmEscape = function() {
+    document.getElementById("jailMascot").textContent = sessionData.mascot.emoji;
+    document.getElementById("jailMsg").textContent =
+      sessionData.name + "'s " + sessionData.mascot.name + " has been arrested. No bail. 🔒";
+    document.getElementById("jailOverlay").classList.add("show");
+  };
+  window.doEscape = async function() {
+    document.getElementById("jailOverlay").classList.remove("show");
+    clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
+    await markStatus("escaped");
+    if (myRef) { try { await remove(myRef); } catch(e){} }
+    document.getElementById("doneConfetti").textContent = "😔💔😔💔😔";
+    document.getElementById("doneMascot").textContent = sessionData.mascot.emoji+"🚔";
+    const t=document.getElementById("doneTitle"); t.textContent="ESCAPED."; t.className="done-title escaped";
+    document.getElementById("doneMsg").textContent = "The task remains. The guilt is permanent. The mascot is in jail. You know what you must do.";
+    document.getElementById("doneTime").textContent = "";
+    showScreen("screen-done");
+  };
+
+  // ── FINISH EARLY ──
+  window.finishEarly = async function() {
+    clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
+    await markStatus("done");
+    showDoneScreen();
+  };
+
+  // ── DONE ──
+  function showDoneScreen() {
+    clearInterval(stageInterval); clearTimeout(horseTimeout);
+    launchConfetti();
+    const elapsed = totalSeconds - secondsLeft;
+    const m=Math.floor(elapsed/60), s=elapsed%60;
+    document.getElementById("doneConfetti").textContent = "🎉✨🏆✨🎉";
+    document.getElementById("doneMascot").textContent = sessionData.mascot.emoji+"🏆";
+    const t=document.getElementById("doneTitle"); t.textContent="YOU DID IT!"; t.className="done-title";
+    document.getElementById("doneMsg").textContent = DONE_MSGS[Math.floor(Math.random()*DONE_MSGS.length)];
+    document.getElementById("doneTime").textContent = "Locked in for "+m+"m "+s+"s 🔥";
+    showScreen("screen-done");
+  }
+
+  function launchConfetti() {
+    const pieces=["🎉","✨","🌸","💕","⭐","🎊","💖","🌟","🦄","🌈"];
+    for (let i=0;i<28;i++) {
+      setTimeout(()=>{
+        const el=document.createElement("div");
+        el.className="confetti-piece";
+        el.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+        el.style.left=Math.random()*100+"vw";
+        el.style.animationDuration=(1.4+Math.random()*2.2)+"s";
+        el.style.animationDelay=Math.random()*0.6+"s";
+        el.style.fontSize=(14+Math.random()*20)+"px";
+        document.body.appendChild(el);
+        setTimeout(()=>el.remove(),3800);
+      },i*55);
+    }
+  }
+
+  window.resetAll = async function() {
+    clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
+    if (myRef) { try { await remove(myRef); } catch(e){} }
+    myRef = null; mySessionId = null; allPeeps = {}; peepPositions = {};
+    document.getElementById("inp-name").value="";
+    document.getElementById("inp-task").value="";
+    document.getElementById("inp-time").value="";
+    selectedMascot=MASCOTS[0];
+    document.querySelectorAll(".mascot-opt").forEach((el,i)=>el.classList.toggle("selected",i===0));
+    showScreen("screen-checkin");
+  };
+
+  buildMascotGrid();
 </script>
 </body>
 </html>

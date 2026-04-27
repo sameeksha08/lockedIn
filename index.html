@@ -3,631 +3,660 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Locked In</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>Locked In ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #0D0D0D;
-      --card: #161616;
-      --border: #2a2a2a;
-      --purple: #8B5CF6;
-      --yellow: #FFE566;
-      --green: #4ADE80;
-      --red: #F87171;
-      --text: #F0EDE8;
-      --muted: #666;
+      --pink: #FF9EC4;
+      --pink-light: #FFD6E8;
+      --pink-pale: #FFF0F7;
+      --lilac: #C9A8FF;
+      --lilac-light: #EDE0FF;
+      --mint: #A8F0D8;
+      --peach: #FFD6A8;
+      --yellow: #FFF0A8;
+      --yellow-bright: #FFE566;
+      --text: #3D1A40;
+      --muted: #B080B8;
+      --card: rgba(255,255,255,0.78);
+      --border: rgba(201,168,255,0.4);
+      --shadow: 0 8px 32px rgba(201,168,255,0.22);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #FFD6E8 0%, #EDE0FF 45%, #D6FFF0 100%);
+      min-height: 100vh; color: var(--text); overflow-x: hidden;
     }
+    .bg-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.4; animation: blobFloat 9s ease-in-out infinite alternate; }
+    @keyframes blobFloat { from { transform: translateY(0) scale(1); } to { transform: translateY(-28px) scale(1.07); } }
 
-    /* SCREENS */
-    .screen { display: none; min-height: 100vh; }
-    .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+    .screen { display: none; position: relative; z-index: 1; min-height: 100vh; }
+    .screen.active { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px 20px; }
 
-    /* CHECKIN SCREEN */
-    #screen-checkin {
-      background: var(--bg);
-      background-image: radial-gradient(ellipse at 20% 50%, rgba(139,92,246,0.12) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 20%, rgba(255,229,102,0.07) 0%, transparent 50%);
+    /* ===== CHECK IN ===== */
+    .checkin-card {
+      background: var(--card); backdrop-filter: blur(24px);
+      border: 1.5px solid var(--border); border-radius: 28px;
+      padding: 40px 36px; max-width: 460px; width: 100%;
+      box-shadow: var(--shadow);
+      animation: cardIn 0.55s cubic-bezier(0.34,1.56,0.64,1);
     }
-    .checkin-inner { max-width: 440px; width: 100%; }
-    .logo { font-family: 'Bebas Neue', sans-serif; font-size: 80px; line-height: 0.9; color: var(--yellow); margin-bottom: 8px; }
-    .logo span { color: var(--purple); }
-    .tagline { font-size: 13px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 36px; }
-
+    @keyframes cardIn { from { opacity:0; transform:translateY(28px) scale(0.94); } to { opacity:1; transform:none; } }
+    .logo-emoji { font-size: 46px; display: block; text-align: center; animation: wiggle 2.8s ease-in-out infinite; }
+    @keyframes wiggle { 0%,100%{transform:rotate(-7deg);} 50%{transform:rotate(7deg);} }
+    .logo {
+      font-family: 'Fredoka One', cursive; font-size: 60px; line-height: 1;
+      background: linear-gradient(135deg, #FF6BAE, #C35EFF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      text-align: center; margin-bottom: 4px;
+    }
+    .tagline { text-align: center; font-size: 13px; color: var(--muted); font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 28px; }
     .form-group { margin-bottom: 14px; }
-    .form-group label { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 7px; }
-    .form-group input, .form-group textarea, .form-group select {
-      width: 100%; background: var(--card); border: 1px solid var(--border);
-      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px;
-      padding: 12px 16px; border-radius: 10px; outline: none; transition: border 0.2s;
-      resize: none;
+    .form-group label { display: block; font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .form-group input, .form-group textarea {
+      width: 100%; background: rgba(255,255,255,0.85);
+      border: 1.5px solid var(--border); color: var(--text);
+      font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 600;
+      padding: 12px 16px; border-radius: 14px; outline: none;
+      transition: border 0.2s, box-shadow 0.2s; resize: none;
     }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--purple); }
-    .form-group textarea { height: 80px; }
-
-    .mascot-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .form-group input:focus, .form-group textarea:focus { border-color: var(--lilac); box-shadow: 0 0 0 3px rgba(201,168,255,0.22); }
+    .form-group textarea { height: 76px; }
+    .mascot-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; }
     .mascot-opt {
-      background: var(--card); border: 2px solid var(--border);
-      border-radius: 10px; padding: 10px 6px; text-align: center;
-      cursor: pointer; transition: all 0.15s; font-size: 24px;
+      background: rgba(255,255,255,0.75); border: 2px solid var(--border);
+      border-radius: 14px; padding: 10px 6px; text-align: center;
+      cursor: pointer; transition: all 0.18s; font-size: 26px;
     }
-    .mascot-opt span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 500; }
-    .mascot-opt:hover { border-color: var(--purple); }
-    .mascot-opt.selected { border-color: var(--yellow); background: rgba(255,229,102,0.07); }
-
+    .mascot-opt span { display: block; font-size: 10px; color: var(--muted); margin-top: 3px; font-weight: 700; }
+    .mascot-opt:hover { transform: scale(1.1); border-color: var(--pink); }
+    .mascot-opt.selected { border-color: var(--pink); background: var(--pink-light); transform: scale(1.1); box-shadow: 0 4px 14px rgba(255,158,196,0.35); }
     .btn-primary {
-      width: 100%; background: var(--yellow); color: #0D0D0D;
-      font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 0.08em;
-      border: none; border-radius: 12px; padding: 16px; cursor: pointer;
-      margin-top: 20px; transition: transform 0.1s, opacity 0.1s;
+      width: 100%; margin-top: 22px;
+      background: linear-gradient(135deg, #FF6BAE, #C35EFF);
+      color: white; font-family: 'Fredoka One', cursive; font-size: 22px;
+      letter-spacing: 0.06em; border: none; border-radius: 16px; padding: 16px;
+      cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 6px 22px rgba(195,94,255,0.32);
     }
-    .btn-primary:hover { opacity: 0.92; transform: translateY(-1px); }
-    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(195,94,255,0.42); }
+    .btn-primary:active { transform: scale(0.97); }
 
-    /* SESSION SCREEN */
-    #screen-session {
-      background: var(--bg);
-      background-image: radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.15) 0%, transparent 60%);
-      padding: 0;
-      justify-content: flex-start;
+    /* ===== SESSION ===== */
+    #screen-session { justify-content: flex-start; padding: 0; overflow: hidden; }
+    .session-top {
+      width: 100%; background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(20px); border-bottom: 1.5px solid var(--border);
+      padding: 16px 24px; display: flex; align-items: center; gap: 16px;
+      flex-wrap: wrap; z-index: 20; position: relative;
     }
-    .session-layout { display: grid; grid-template-columns: 1fr 320px; width: 100%; min-height: 100vh; }
-
-    /* LEFT: TIMER */
-    .timer-panel {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      padding: 40px; border-right: 1px solid var(--border); position: relative;
+    .session-logo { font-family: 'Fredoka One', cursive; font-size: 24px;
+      background: linear-gradient(135deg,#FF6BAE,#C35EFF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; flex-shrink:0; }
+    .session-info { flex: 1; min-width: 0; }
+    .session-nametask { font-size: 14px; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .session-nametask span { color: var(--muted); font-weight: 600; }
+    .timer-pill {
+      background: linear-gradient(135deg,#FF6BAE,#C35EFF); color: white;
+      border-radius: 999px; padding: 10px 20px; flex-shrink: 0;
     }
-    .session-name { font-size: 13px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-    .session-task { font-size: 22px; font-weight: 700; color: var(--text); text-align: center; margin-bottom: 40px; max-width: 400px; }
-
-    .timer-ring { position: relative; width: 240px; height: 240px; margin-bottom: 32px; }
-    .timer-ring svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
-    .ring-bg { fill: none; stroke: var(--border); stroke-width: 8; }
-    .ring-fill { fill: none; stroke: var(--purple); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 1s linear; }
-    .timer-display {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      text-align: center;
+    .timer-digits { font-family: 'Fredoka One', cursive; font-size: 26px; line-height: 1; }
+    .timer-lbl { font-size: 10px; font-weight: 700; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.1em; }
+    .btn-escape-top {
+      background: white; border: 2px solid #FFB0B0; color: #D04040;
+      font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 800;
+      padding: 9px 16px; border-radius: 999px; cursor: pointer; transition: all 0.18s; flex-shrink:0;
     }
-    .timer-digits { font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: var(--yellow); line-height: 1; }
-    .timer-label { font-size: 11px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; margin-top: 2px; }
+    .btn-escape-top:hover { background: #FFF0F0; transform: scale(1.04); }
 
-    .btn-escape {
-      background: transparent; border: 1.5px solid var(--red);
-      color: var(--red); font-family: 'DM Sans', sans-serif;
-      font-size: 14px; font-weight: 700; padding: 12px 32px;
-      border-radius: 10px; cursor: pointer; transition: all 0.2s;
-      letter-spacing: 0.04em;
+    /* WORLD */
+    .world {
+      flex: 1; width: 100%; position: relative; overflow: hidden;
+      background: linear-gradient(180deg, #FEF5FF 0%, #F2EAFF 55%, #E8FFF5 100%);
+      min-height: 420px;
     }
-    .btn-escape:hover { background: rgba(248,113,113,0.1); }
-
-    /* PARENT CHECK PANEL */
-    .parent-panel {
-      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px 18px; display: flex;
-      align-items: center; gap: 12px; width: calc(100% - 80px); max-width: 400px;
+    /* sky elements */
+    .sky-star { position: absolute; pointer-events: none; font-size: 16px; animation: starTwinkle ease-in-out infinite alternate; }
+    @keyframes starTwinkle { from{opacity:0.25;transform:scale(0.8);} to{opacity:1;transform:scale(1.2);} }
+    /* ground */
+    .ground {
+      position: absolute; bottom:0; left:0; right:0; height: 76px;
+      background: linear-gradient(180deg,#C9F0D8,#A8E6BC);
+      border-top: 3px dashed rgba(255,255,255,0.6);
+      z-index: 2;
     }
-    .parent-avatar { font-size: 28px; flex-shrink: 0; }
-    .parent-text { font-size: 13px; color: var(--muted); line-height: 1.4; }
-    .parent-text strong { color: var(--text); display: block; font-size: 14px; margin-bottom: 2px; }
-    .parent-btn {
-      margin-left: auto; flex-shrink: 0;
-      background: var(--card); border: 1px solid var(--border);
-      color: var(--text); font-size: 11px; font-weight: 700;
-      padding: 7px 12px; border-radius: 8px; cursor: pointer;
-      white-space: nowrap; transition: border-color 0.2s;
+    .ground-flower { position: absolute; font-size: 18px; bottom: 10px; }
+
+    /* clouds */
+    .cloud-el {
+      position: absolute; background: white; border-radius: 999px;
+      opacity: 0.75; animation: cloudDrift linear infinite;
+      box-shadow: 0 4px 16px rgba(201,168,255,0.18);
     }
-    .parent-btn:hover { border-color: var(--purple); }
+    @keyframes cloudDrift { from{left:-220px;} to{left:calc(100vw + 220px);} }
 
-    /* YOUTUBE MODAL */
-    .yt-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.92); z-index: 100;
-      align-items: center; justify-content: center;
-      flex-direction: column; gap: 16px;
+    /* MASCOTS ON STAGE */
+    .stage-mascot {
+      position: absolute; text-align: center; z-index: 5;
+      animation: mascotBob ease-in-out infinite alternate;
+      transition: left 1.4s cubic-bezier(0.45,0,0.55,1);
+      cursor: default;
     }
-    .yt-overlay.show { display: flex; }
-    .yt-warning { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--red); letter-spacing: 0.05em; }
-    .yt-frame { width: min(560px, 90vw); aspect-ratio: 16/9; border-radius: 12px; overflow: hidden; border: 2px solid var(--red); }
-    .yt-frame iframe { width: 100%; height: 100%; border: none; }
-    .yt-close {
-      background: var(--red); color: white; border: none;
-      font-family: 'DM Sans', sans-serif; font-weight: 700;
-      font-size: 14px; padding: 10px 28px; border-radius: 10px;
-      cursor: pointer; transition: opacity 0.2s;
+    @keyframes mascotBob { from{transform:translateY(0);} to{transform:translateY(-9px);} }
+    .m-nametag {
+      background: white; border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 4px 10px; font-size: 11px; font-weight: 800; color: var(--text);
+      margin-bottom: 3px; white-space: nowrap; box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+      display: inline-block;
     }
-    .yt-close:hover { opacity: 0.85; }
+    .m-activity { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+    .m-emoji-big { font-size: 46px; display: block; line-height: 1.1; }
+    .m-prop { font-size: 20px; display: block; }
 
-    /* RIGHT: LEADERBOARD / RACE */
-    .race-panel { padding: 28px 24px; overflow-y: auto; }
-    .panel-title { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text); margin-bottom: 4px; letter-spacing: 0.04em; }
-    .panel-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
-
-    .race-track { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 20px; }
-    .race-row { margin-bottom: 14px; }
-    .race-row:last-child { margin-bottom: 0; }
-    .race-info { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-    .race-mascot { font-size: 20px; }
-    .race-name { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
-    .race-pct { font-size: 12px; color: var(--muted); }
-    .race-done { font-size: 11px; color: var(--green); font-weight: 700; }
-    .track-bar { background: var(--border); border-radius: 999px; height: 8px; position: relative; overflow: hidden; }
-    .track-fill { height: 100%; border-radius: 999px; background: var(--purple); transition: width 1s linear; position: relative; }
-    .track-fill.done { background: var(--green); }
-    .track-duck { position: absolute; right: -2px; top: 50%; transform: translateY(-50%); font-size: 16px; line-height: 1; }
-
-    .leaderboard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
-    .lb-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
-    .lb-row:last-child { border-bottom: none; }
-    .lb-rank { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--muted); min-width: 24px; }
-    .lb-rank.gold { color: var(--yellow); }
-    .lb-mascot { font-size: 18px; }
-    .lb-info { flex: 1; }
-    .lb-name { font-size: 13px; font-weight: 700; }
-    .lb-task { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
-    .lb-status { font-size: 11px; font-weight: 700; }
-    .lb-status.done { color: var(--green); }
-    .lb-status.racing { color: var(--purple); }
-    .lb-status.escaped { color: var(--red); }
-
-    /* ESCAPE CONFIRM */
-    #screen-escape {
-      background: var(--bg);
-      background-image: radial-gradient(ellipse at 50% 50%, rgba(248,113,113,0.1) 0%, transparent 60%);
+    /* HORSE INSPECTOR */
+    .horse-wrap {
+      position: absolute; bottom: 82px; z-index: 30; text-align: center;
+      pointer-events: none;
+      transition: left 0.9s cubic-bezier(0.22,1,0.36,1);
     }
-    .escape-inner { max-width: 400px; width: 100%; text-align: center; }
-    .escape-emoji { font-size: 64px; margin-bottom: 16px; }
-    .escape-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: var(--red); margin-bottom: 12px; line-height: 1; }
-    .escape-msg { font-size: 16px; color: var(--muted); margin-bottom: 32px; line-height: 1.6; }
-    .btn-row { display: flex; gap: 12px; }
+    .horse-speech {
+      background: var(--yellow-bright); border: 2px solid #F0CC00;
+      border-radius: 16px; padding: 7px 14px; font-size: 13px;
+      font-weight: 800; color: var(--text); margin-bottom: 6px;
+      white-space: nowrap; box-shadow: 0 4px 18px rgba(255,229,102,0.45);
+      animation: speechPop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes speechPop { from{transform:scale(0);opacity:0;} to{transform:scale(1);opacity:1;} }
+    .horse-emoji-el { font-size: 54px; display: block; animation: horseGallop 0.35s ease infinite alternate; }
+    @keyframes horseGallop { from{transform:translateY(0) rotate(-4deg);} to{transform:translateY(-7px) rotate(4deg);} }
+
+    /* ===== ESCAPE SCREEN ===== */
+    #screen-escape { background: linear-gradient(135deg,#FFE8F5,#F0E8FF); }
+    .escape-card {
+      background: var(--card); backdrop-filter: blur(20px);
+      border: 1.5px solid var(--border); border-radius: 28px;
+      padding: 44px 36px; max-width: 420px; width: 100%;
+      text-align: center; box-shadow: var(--shadow);
+      animation: cardIn 0.45s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .escape-big-emoji { font-size: 72px; display: block; margin-bottom: 8px; animation: jailShake 0.5s ease-in-out; }
+    @keyframes jailShake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-8px);} 40%,80%{transform:translateX(8px);} }
+    .escape-title { font-family:'Fredoka One',cursive; font-size:44px;
+      background:linear-gradient(135deg,#FF6BAE,#C35EFF);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:10px; }
+    .escape-msg { font-size:15px; color:var(--muted); line-height:1.65; margin-bottom:28px; font-weight:600; }
+    .btn-row { display:flex; gap:12px; }
     .btn-back {
-      flex: 1; background: var(--card); border: 1.5px solid var(--border);
-      color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px;
-      font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer;
-      transition: border-color 0.2s;
+      flex:1; background:white; border:2px solid var(--lilac); color:var(--text);
+      font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
+      padding:13px; border-radius:14px; cursor:pointer; transition:all 0.18s;
     }
-    .btn-back:hover { border-color: var(--purple); }
+    .btn-back:hover { background:var(--lilac-light); }
     .btn-confirm-escape {
-      flex: 1; background: var(--red); border: none;
-      color: white; font-family: 'DM Sans', sans-serif; font-size: 15px;
-      font-weight: 700; padding: 14px; border-radius: 12px; cursor: pointer;
-      opacity: 0.9; transition: opacity 0.2s;
+      flex:1; background:linear-gradient(135deg,#FFB0B0,#FF6060); border:none;
+      color:white; font-family:'Nunito',sans-serif; font-size:14px; font-weight:800;
+      padding:13px; border-radius:14px; cursor:pointer; transition:opacity 0.18s;
     }
-    .btn-confirm-escape:hover { opacity: 1; }
+    .btn-confirm-escape:hover { opacity:0.88; }
 
-    /* DONE SCREEN */
-    #screen-done {
-      background: var(--bg);
-      background-image: radial-gradient(ellipse at 50% 30%, rgba(74,222,128,0.12) 0%, transparent 60%);
+    /* ===== JAIL OVERLAY ===== */
+    .jail-overlay {
+      position: fixed; inset:0; background:rgba(60,10,70,0.55);
+      z-index:200; display:none; align-items:center; justify-content:center;
     }
-    .done-inner { max-width: 420px; width: 100%; text-align: center; }
-    .done-emoji { font-size: 72px; margin-bottom: 16px; }
-    .done-title { font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: var(--green); margin-bottom: 8px; line-height: 1; }
-    .done-msg { font-size: 16px; color: var(--muted); margin-bottom: 12px; line-height: 1.6; }
-    .done-time { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--yellow); margin-bottom: 32px; }
+    .jail-overlay.show { display:flex; }
+    .jail-box {
+      background: white; border-radius: 28px; padding: 44px 36px;
+      text-align: center; max-width: 360px; width: 90%;
+      animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .jail-bars { font-size:14px; letter-spacing:7px; color:#aaa; margin-bottom:8px; }
+    .jail-mascot-el { font-size:70px; display:block; margin-bottom:8px; filter:grayscale(0.3) saturate(0.7); animation:jailShake 0.6s ease-in-out; }
+    .jail-title { font-family:'Fredoka One',cursive; font-size:38px; color:#666; margin-bottom:8px; }
+    .jail-msg { font-size:14px; color:#999; font-weight:600; line-height:1.5; margin-bottom:22px; }
+    .btn-jail-shame {
+      background: linear-gradient(135deg,#e0e0e0,#c0c0c0); border:none; color:#555;
+      font-family:'Nunito',sans-serif; font-weight:800; font-size:15px;
+      padding:13px 30px; border-radius:14px; cursor:pointer; transition:opacity 0.2s;
+    }
+    .btn-jail-shame:hover { opacity:0.85; }
+
+    /* ===== DONE SCREEN ===== */
+    #screen-done { }
+    .done-card {
+      background: var(--card); backdrop-filter:blur(20px);
+      border:1.5px solid var(--border); border-radius:28px;
+      padding:44px 36px; max-width:440px; width:100%;
+      text-align:center; box-shadow:var(--shadow);
+      animation: cardIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .done-confetti-row { font-size:28px; letter-spacing:4px; margin-bottom:14px; }
+    .done-mascot-big { font-size:80px; display:block; margin-bottom:8px; animation: winnerpop 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes winnerpop { from{transform:scale(0) rotate(-20deg);} to{transform:scale(1) rotate(0);} }
+    .done-title {
+      font-family:'Fredoka One',cursive; font-size:56px; line-height:1; margin-bottom:8px;
+      background:linear-gradient(135deg,#43E89A,#00C9A0);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .done-title.escaped {
+      background:linear-gradient(135deg,#FF6BAE,#FF3030);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .done-msg { font-size:15px; color:var(--muted); line-height:1.65; font-weight:600; margin-bottom:10px; }
+    .done-time { font-family:'Fredoka One',cursive; font-size:22px; color:var(--text); margin-bottom:28px; }
     .btn-again {
-      background: var(--yellow); color: #0D0D0D;
-      font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 0.06em;
-      border: none; border-radius: 12px; padding: 14px 40px; cursor: pointer;
-      transition: opacity 0.2s;
+      background: linear-gradient(135deg,#FF6BAE,#C35EFF); color:white;
+      font-family:'Fredoka One',cursive; font-size:22px; letter-spacing:0.06em;
+      border:none; border-radius:16px; padding:14px 40px; cursor:pointer;
+      box-shadow:0 6px 20px rgba(195,94,255,0.3); transition:transform 0.15s;
     }
-    .btn-again:hover { opacity: 0.9; }
+    .btn-again:hover { transform:translateY(-2px); }
 
-    @media (max-width: 700px) {
-      .session-layout { grid-template-columns: 1fr; }
-      .race-panel { border-top: 1px solid var(--border); }
-      .timer-panel { border-right: none; padding-bottom: 200px; }
+    /* confetti pieces */
+    .confetti-piece {
+      position:fixed; top:-20px; pointer-events:none; z-index:999;
+      animation: confettiFall linear forwards;
     }
+    @keyframes confettiFall { to{transform:translateY(110vh) rotate(720deg);opacity:0;} }
   </style>
 </head>
 <body>
 
-<!-- SCREEN: CHECK IN -->
-<div id="screen-checkin" class="screen active">
-  <div class="checkin-inner">
-    <div class="logo">LOCKED<span>IN</span></div>
-    <div class="tagline">Give us a task. Give us a time. We do the rest.</div>
+<div class="bg-blobs">
+  <div class="blob" style="width:420px;height:420px;background:#FFD6E8;top:-110px;left:-110px;animation-delay:0s"></div>
+  <div class="blob" style="width:360px;height:360px;background:#EDE0FF;top:25%;right:-100px;animation-delay:-3.5s"></div>
+  <div class="blob" style="width:300px;height:300px;background:#D6FFF0;bottom:-80px;left:28%;animation-delay:-6s"></div>
+</div>
 
+<!-- CHECK IN -->
+<div id="screen-checkin" class="screen active">
+  <div class="checkin-card">
+    <span class="logo-emoji">🔒</span>
+    <div class="logo">LOCKED IN</div>
+    <div class="tagline">give us a task. give us a time. ✨</div>
     <div class="form-group">
-      <label>Your name</label>
-      <input id="name" placeholder="e.g. Priya" autocomplete="off">
+      <label>Your name ✨</label>
+      <input id="inp-name" placeholder="e.g. Emily" autocomplete="off">
     </div>
     <div class="form-group">
-      <label>What are you working on?</label>
-      <textarea id="task" placeholder="e.g. Write 500 words of my English essay that's due tomorrow and I haven't started"></textarea>
+      <label>What are you working on? 📚</label>
+      <textarea id="inp-task" placeholder="e.g. Write the 500 words of my essay I definitely haven't started yet"></textarea>
     </div>
     <div class="form-group">
-      <label>How long do you need? (minutes)</label>
-      <input id="time" type="number" placeholder="e.g. 45" min="1" max="180">
+      <label>How long do you need? (minutes) ⏱</label>
+      <input id="inp-time" type="number" placeholder="e.g. 45" min="1" max="180">
     </div>
     <div class="form-group">
-      <label>Pick your racer</label>
+      <label>Pick your mascot 🐾</label>
       <div class="mascot-grid" id="mascotGrid"></div>
     </div>
-
     <button class="btn-primary" onclick="startSession()">Lock Me In 🔒</button>
   </div>
 </div>
 
-<!-- SCREEN: SESSION -->
+<!-- SESSION -->
 <div id="screen-session" class="screen">
-  <div class="session-layout">
-    <!-- LEFT -->
-    <div class="timer-panel">
-      <div class="session-name" id="sName"></div>
-      <div class="session-task" id="sTask"></div>
-
-      <div class="timer-ring">
-        <svg width="240" height="240" viewBox="0 0 240 240">
-          <circle class="ring-bg" cx="120" cy="120" r="108"/>
-          <circle class="ring-fill" id="ringFill" cx="120" cy="120" r="108"
-            stroke-dasharray="678.6" stroke-dashoffset="0"/>
-        </svg>
-        <div class="timer-display">
-          <div class="timer-digits" id="timerDigits">--:--</div>
-          <div class="timer-label">remaining</div>
-        </div>
-      </div>
-
-      <button class="btn-escape" onclick="showEscape()">Attempt Escape 🚪</button>
-
-      <div class="parent-panel" id="parentPanel">
-        <div class="parent-avatar">👩</div>
-        <div class="parent-text">
-          <strong>Parent check-in activated</strong>
-          Someone wants to see your progress...
-        </div>
-        <button class="parent-btn" onclick="showParentVideo()">Open 😰</button>
-      </div>
+  <div class="session-top">
+    <div class="session-logo">Locked In 🔒</div>
+    <div class="session-info">
+      <div class="session-nametask" id="sNameTask"></div>
     </div>
-
-    <!-- RIGHT -->
-    <div class="race-panel">
-      <div class="panel-title">The Race 🏁</div>
-      <div class="panel-sub">Live progress — everyone's watching</div>
-      <div class="race-track" id="raceTrack"></div>
-
-      <div class="panel-title" style="margin-top:20px">Leaderboard</div>
-      <div class="panel-sub">Fastest finishers</div>
-      <div class="leaderboard" id="leaderboard"></div>
+    <div class="timer-pill">
+      <div class="timer-digits" id="timerDigits">--:--</div>
+      <div class="timer-lbl">remaining</div>
     </div>
+    <button class="btn-escape-top" onclick="showEscape()">Attempt Escape 🚪</button>
+  </div>
+  <div class="world" id="world">
+    <div class="ground" id="ground"><div id="groundFlowers"></div></div>
   </div>
 </div>
 
-<!-- SCREEN: ESCAPE CONFIRM -->
+<!-- ESCAPE CONFIRM -->
 <div id="screen-escape" class="screen">
-  <div class="escape-inner">
-    <div class="escape-emoji">🤨</div>
-    <div class="escape-title">Leaving already?</div>
-    <div class="escape-msg" id="escapeMsg">Be honest with yourself. You came here to actually do the thing. Are you really done, or are you just bored?</div>
+  <div class="escape-card">
+    <span class="escape-big-emoji" id="escapeEmoji">🦆</span>
+    <div class="escape-title">Hold on bestie…</div>
+    <div class="escape-msg" id="escapeMsg">Are you really done, or just bored?</div>
     <div class="btn-row">
-      <button class="btn-back" onclick="goBack()">← Go back and finish</button>
-      <button class="btn-confirm-escape" onclick="confirmEscape()">Yeah, I'm out 🏃</button>
+      <button class="btn-back" onclick="goBack()">← Go back & finish</button>
+      <button class="btn-confirm-escape" onclick="confirmEscape()">I'm out 🏃‍♀️</button>
     </div>
   </div>
 </div>
 
-<!-- SCREEN: DONE -->
+<!-- JAIL OVERLAY -->
+<div class="jail-overlay" id="jailOverlay">
+  <div class="jail-box">
+    <div class="jail-bars">| | | | | | |</div>
+    <span class="jail-mascot-el" id="jailMascot">🦆</span>
+    <div class="jail-title">You're in jail.</div>
+    <div class="jail-msg" id="jailMsg">The task remains. The guilt remains.</div>
+    <button class="btn-jail-shame" onclick="doEscape()">Walk of shame 🚶‍♀️</button>
+  </div>
+</div>
+
+<!-- DONE -->
 <div id="screen-done" class="screen">
-  <div class="done-inner">
-    <div class="done-emoji" id="doneEmoji">🏆</div>
-    <div class="done-title" id="doneTitle">DONE!</div>
+  <div class="done-card">
+    <div class="done-confetti-row" id="doneConfetti">🎉✨🏆✨🎉</div>
+    <span class="done-mascot-big" id="doneMascot">🏆</span>
+    <div class="done-title" id="doneTitle">YOU DID IT!</div>
     <div class="done-msg" id="doneMsg"></div>
     <div class="done-time" id="doneTime"></div>
-    <button class="btn-again" onclick="resetAll()">Lock In Again</button>
+    <button class="btn-again" onclick="resetAll()">Lock In Again ✨</button>
   </div>
-</div>
-
-<!-- YOUTUBE OVERLAY -->
-<div class="yt-overlay" id="ytOverlay">
-  <div class="yt-warning">🚨 PARENT INCOMING 🚨</div>
-  <div class="yt-frame">
-    <iframe id="ytFrame" src="" allowfullscreen allow="autoplay"></iframe>
-  </div>
-  <button class="yt-close" onclick="closeParentVideo()">They're gone. Back to work.</button>
 </div>
 
 <script>
-  const MASCOTS = [
-    { emoji: "🦆", name: "Duck" },
-    { emoji: "🐢", name: "Turtle" },
-    { emoji: "🐸", name: "Frog" },
-    { emoji: "🦊", name: "Fox" },
-    { emoji: "🐼", name: "Panda" },
-    { emoji: "🚀", name: "Rocket" },
-    { emoji: "🐝", name: "Bee" },
-    { emoji: "🦅", name: "Eagle" },
-    { emoji: "🐱", name: "Cat" },
-    { emoji: "🦄", name: "Unicorn" },
-  ];
+const MASCOTS = [
+  {emoji:"🦆",name:"Ducky"},
+  {emoji:"🐸",name:"Froggy"},
+  {emoji:"🐼",name:"Panda"},
+  {emoji:"🦊",name:"Foxie"},
+  {emoji:"🐱",name:"Kitty"},
+  {emoji:"🐝",name:"Beezy"},
+  {emoji:"🦄",name:"Uni"},
+  {emoji:"🐨",name:"Koala"},
+  {emoji:"🐰",name:"Bunny"},
+  {emoji:"🦋",name:"Flutter"},
+];
+const ACTIVITIES = [
+  {icon:"💻",label:"typing away"},
+  {icon:"📚",label:"deep reading"},
+  {icon:"✏️",label:"taking notes"},
+  {icon:"🎧",label:"in the zone"},
+  {icon:"📝",label:"writing"},
+  {icon:"☕",label:"caffeinated"},
+  {icon:"🔍",label:"researching"},
+  {icon:"💡",label:"thinking hard"},
+];
+const HORSE_MSGS = [
+  "👀 Still working? I'm watching.",
+  "🐴 Neigh-bour check! How's it going?",
+  "Still here? Proud of you bestie 💖",
+  "Focus check! Stay locked in!! 🔒",
+  "🐴 I galloped all the way to check on you.",
+  "You're doing great! Keep going! 💪",
+  "Less scrolling, more doing. 👁️",
+  "🐴 Your future self says THANK YOU.",
+  "No sneaking off! I'll know. 🐴",
+  "Almost there! Don't you dare quit. 🌸",
+];
+const ESCAPE_MSGS = [
+  "Be honest with yourself. You came here to actually do the thing. Are you really done, or just bored? 👀",
+  "The timer still has time on it. The task is still unfinished. The vibes are off. Stay. 🙏",
+  "Your future self is literally begging you. Five more minutes, babe.",
+  "You literally just got here!! Come on. You can do this. 💕",
+  "Think about how good it'll feel to finish. Now go finish. 💪",
+];
+const DONE_MSGS = [
+  "Finished before the timer?? Who ARE you right now. Absolute legend. ✨",
+  "Look at you! All done and everything. We're so proud it's embarrassing. 🌸",
+  "Task complete. You may now rot in peace. 🫶",
+  "You came, you saw, you actually did the thing. Iconic behaviour.",
+  "Done AND on time? Honestly unhinged. We love to see it. 🏆",
+];
+const FAKE_FRIENDS = [
+  {name:"Aisha",mascot:{emoji:"🐝",name:"Beezy"}},
+  {name:"Cleo",mascot:{emoji:"🦄",name:"Uni"}},
+  {name:"Marcus",mascot:{emoji:"🐨",name:"Koala"}},
+];
 
-  const FAKE_PLAYERS = [
-    { name: "Aisha", task: "Finish lit review", mascot: "🐝", totalSecs: 2400, elapsed: 0, done: false },
-    { name: "Marcus", task: "Do 3 practice questions", mascot: "🚀", totalSecs: 1800, elapsed: 0, done: false },
-    { name: "Cleo", task: "Slides for presentation", mascot: "🦄", totalSecs: 3000, elapsed: 0, done: false },
-  ];
+let selectedMascot = MASCOTS[0];
+let sessionData = {};
+let timerInterval = null, stageInterval = null, horseTimeout = null;
+let secondsLeft = 0, totalSeconds = 0;
+let stagePeeps = []; // {id, name, mascot, x, direction, activity, isMe}
 
-  const ESCAPE_MSGS = [
-    "Be honest with yourself. You came here to actually do the thing. Are you really done, or are you just bored?",
-    "The timer still has time on it. Your task is still unfinished. The vibe is still off. Stay.",
-    "Your future self is begging you. Five more minutes.",
-    "You literally just got here. Come on.",
-  ];
+// ---- SETUP ----
+function buildMascotGrid() {
+  const grid = document.getElementById("mascotGrid");
+  MASCOTS.forEach((m,i) => {
+    const el = document.createElement("div");
+    el.className = "mascot-opt" + (i===0?" selected":"");
+    el.innerHTML = m.emoji + '<span>' + m.name + '</span>';
+    el.onclick = () => {
+      document.querySelectorAll(".mascot-opt").forEach(x=>x.classList.remove("selected"));
+      el.classList.add("selected"); selectedMascot = m;
+    };
+    grid.appendChild(el);
+  });
+}
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
 
-  const DONE_MSGS_EARLY = [
-    "Finished before the timer? Absolute menace. We're proud of you.",
-    "Look at you! Done early?! Who even are you right now.",
-    "Speedy AND productive? Suspicious. But we respect it.",
-  ];
-  const DONE_MSGS_TIME = [
-    "Time's up — and you stayed until the end. That's character.",
-    "You outlasted the timer. Not everyone does. Respect.",
-    "The clock stopped. So did the excuses. Well done.",
-  ];
+// ---- START ----
+function startSession() {
+  const name = document.getElementById("inp-name").value.trim();
+  const task = document.getElementById("inp-task").value.trim();
+  const mins = parseInt(document.getElementById("inp-time").value);
+  if (!name||!task||!mins||mins<1) { alert("Fill everything in! 🙏"); return; }
+  sessionData = {name, task, mascot: selectedMascot, totalMins: mins};
+  totalSeconds = mins * 60;
+  secondsLeft = totalSeconds;
+  document.getElementById("sNameTask").innerHTML =
+    selectedMascot.emoji + " <strong>" + name + "</strong> <span>— " + task + "</span>";
+  updateTimerDisplay();
+  buildWorld();
+  startTimerCountdown();
+  scheduleHorse();
+  showScreen("screen-session");
+}
 
-  // PARENT VIDEO — search YouTube for "asian parent checking on you studying" style videos
-  // Using a publicly available funny study video as placeholder
-  const PARENT_VIDEO_ID = "dQw4w9WgXcQ"; // placeholder — swap for a real funny video ID
+// ---- WORLD ----
+function buildWorld() {
+  const world = document.getElementById("world");
+  world.querySelectorAll(".sky-star,.cloud-el,.stage-mascot,.horse-wrap").forEach(e=>e.remove());
 
-  let selectedMascot = MASCOTS[0];
-  let sessionData = {};
-  let timerInterval = null;
-  let fakeInterval = null;
-  let secondsLeft = 0;
-  let totalSeconds = 0;
-  let parentCheckInterval = null;
-  let nextParentCheck = 0;
+  // sparkle stars
+  ["✨","⭐","💫","🌸","💕","🌟","✨","💫"].forEach((s,i) => {
+    const el = document.createElement("div");
+    el.className = "sky-star";
+    el.textContent = s;
+    el.style.cssText = `left:${6+Math.random()*88}%;top:${4+Math.random()*50}%;animation-delay:${Math.random()*3}s;animation-duration:${2+Math.random()*2}s;`;
+    world.appendChild(el);
+  });
 
-  function buildMascotGrid() {
-    const grid = document.getElementById("mascotGrid");
-    MASCOTS.forEach((m, i) => {
-      const el = document.createElement("div");
-      el.className = "mascot-opt" + (i === 0 ? " selected" : "");
-      el.innerHTML = m.emoji + '<span>' + m.name + '</span>';
-      el.onclick = () => {
-        document.querySelectorAll(".mascot-opt").forEach(x => x.classList.remove("selected"));
-        el.classList.add("selected");
-        selectedMascot = m;
-      };
-      grid.appendChild(el);
+  // clouds
+  for (let i=0;i<3;i++) {
+    const el = document.createElement("div");
+    el.className = "cloud-el";
+    const w = 90+Math.random()*60;
+    el.style.cssText = `width:${w}px;height:${w*0.42}px;top:${8+Math.random()*22}%;animation-duration:${24+i*9}s;animation-delay:${-i*8}s;`;
+    world.appendChild(el);
+  }
+
+  // ground flowers
+  const gf = document.getElementById("groundFlowers");
+  gf.innerHTML = "";
+  const flowerEmojis = ["🌸","🌼","🌺","🌻","💐","🌷"];
+  for (let i=0;i<12;i++) {
+    const f = document.createElement("div");
+    f.className = "ground-flower";
+    f.textContent = flowerEmojis[Math.floor(Math.random()*flowerEmojis.length)];
+    f.style.left = (4+i*8+Math.random()*4) + "%";
+    gf.appendChild(f);
+  }
+
+  // stage peeps
+  stagePeeps = [];
+  const worldW = world.offsetWidth || window.innerWidth;
+  const spacing = worldW / (FAKE_FRIENDS.length + 2);
+
+  // add real user
+  stagePeeps.push({
+    id:"me", name: sessionData.name + " (you)",
+    mascot: sessionData.mascot, isMe: true,
+    x: spacing, direction: 1,
+    activity: getRandActivity(),
+  });
+  // add fake friends
+  FAKE_FRIENDS.forEach((f,i) => {
+    stagePeeps.push({
+      id:"fake"+i, name:f.name,
+      mascot:f.mascot, isMe:false,
+      x: spacing*(i+2), direction: i%2===0?1:-1,
+      activity: getRandActivity(),
     });
-  }
+  });
 
-  function showScreen(id) {
-    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
-  }
+  renderMascots();
+  clearInterval(stageInterval);
+  stageInterval = setInterval(movePeeps, 2200);
+}
 
-  function startSession() {
-    const name = document.getElementById("name").value.trim();
-    const task = document.getElementById("task").value.trim();
-    const mins = parseInt(document.getElementById("time").value);
-    if (!name || !task || !mins || mins < 1) {
-      alert("Fill everything in! 😐");
-      return;
+function getRandActivity() { return ACTIVITIES[Math.floor(Math.random()*ACTIVITIES.length)]; }
+
+function movePeeps() {
+  const worldW = (document.getElementById("world").offsetWidth)||window.innerWidth;
+  stagePeeps.forEach(p => {
+    if (Math.random()>0.35) {
+      const step = 25+Math.random()*55;
+      p.x += p.direction * step;
+      if (p.x > worldW-90) { p.x = worldW-90; p.direction=-1; }
+      if (p.x < 20) { p.x=20; p.direction=1; }
     }
-    sessionData = { name, task, mascot: selectedMascot, totalMins: mins };
-    totalSeconds = mins * 60;
-    secondsLeft = totalSeconds;
+    if (Math.random()>0.65) p.activity = getRandActivity();
+  });
+  renderMascots();
+}
 
-    document.getElementById("sName").textContent = name + " — " + selectedMascot.emoji;
-    document.getElementById("sTask").textContent = '"' + task + '"';
-    updateTimerDisplay();
-    updateRing();
-
-    // init fake players with randomised progress offsets
-    FAKE_PLAYERS.forEach(p => {
-      p.elapsed = Math.floor(Math.random() * (p.totalSecs * 0.15));
-      p.done = false;
-    });
-
-    startFakePlayers();
-    startTimerCountdown();
-    scheduleParentCheck();
-    showScreen("screen-session");
-    renderRace();
-    renderLeaderboard();
-  }
-
-  function startTimerCountdown() {
-    clearInterval(timerInterval);
-    timerInterval = setInterval(() => {
-      if (secondsLeft <= 0) {
-        clearInterval(timerInterval);
-        clearInterval(fakeInterval);
-        clearInterval(parentCheckInterval);
-        showDoneScreen(false);
-        return;
-      }
-      secondsLeft--;
-      updateTimerDisplay();
-      updateRing();
-    }, 1000);
-  }
-
-  function updateTimerDisplay() {
-    const m = Math.floor(secondsLeft / 60);
-    const s = secondsLeft % 60;
-    document.getElementById("timerDigits").textContent = m + ":" + (s < 10 ? "0" : "") + s;
-  }
-
-  function updateRing() {
-    const circ = 678.6;
-    const pct = secondsLeft / totalSeconds;
-    const offset = circ * (1 - pct);
-    const ring = document.getElementById("ringFill");
-    ring.style.strokeDashoffset = offset;
-    if (pct < 0.25) ring.style.stroke = "#F87171";
-    else if (pct < 0.5) ring.style.stroke = "#FFE566";
-    else ring.style.stroke = "#8B5CF6";
-  }
-
-  function startFakePlayers() {
-    clearInterval(fakeInterval);
-    fakeInterval = setInterval(() => {
-      FAKE_PLAYERS.forEach(p => {
-        if (!p.done) {
-          const speed = 1 + Math.random() * 1.5;
-          p.elapsed = Math.min(p.elapsed + speed, p.totalSecs);
-          if (p.elapsed >= p.totalSecs) p.done = true;
-        }
-      });
-      renderRace();
-      renderLeaderboard();
-    }, 1000);
-  }
-
-  function getMyPct() {
-    return (totalSeconds - secondsLeft) / totalSeconds;
-  }
-
-  function renderRace() {
-    const track = document.getElementById("raceTrack");
-    const myPct = getMyPct();
-    let allPlayers = [
-      { name: sessionData.name, mascot: sessionData.mascot ? sessionData.mascot.emoji : "🦆", pct: myPct, done: false, isMe: true },
-      ...FAKE_PLAYERS.map(p => ({ name: p.name, mascot: p.mascot, pct: p.elapsed / p.totalSecs, done: p.done, isMe: false }))
-    ];
-
-    track.innerHTML = allPlayers.map(p => {
-      const pctRound = Math.round(p.pct * 100);
-      return `<div class="race-row">
-        <div class="race-info">
-          <span class="race-mascot">${p.mascot}</span>
-          <span class="race-name">${p.name}${p.isMe ? ' <span style="color:var(--yellow);font-size:11px">(you)</span>' : ''}</span>
-          ${p.done ? '<span class="race-done">FINISHED</span>' : '<span class="race-pct">' + pctRound + '%</span>'}
-        </div>
-        <div class="track-bar">
-          <div class="track-fill${p.done ? ' done' : ''}" style="width:${Math.min(pctRound, 100)}%">
-            <span class="track-duck">${p.mascot}</span>
-          </div>
-        </div>
+function renderMascots() {
+  const world = document.getElementById("world");
+  world.querySelectorAll(".stage-mascot").forEach(e=>e.remove());
+  stagePeeps.forEach((p,i) => {
+    const el = document.createElement("div");
+    el.className = "stage-mascot";
+    el.style.left = p.x + "px";
+    el.style.bottom = "80px";
+    el.style.animationDuration = (2.2+i*0.35)+"s";
+    el.style.animationDelay = (i*0.2)+"s";
+    el.style.transform = p.direction < 0 ? "scaleX(-1)" : "";
+    el.innerHTML = `
+      <div style="transform:${p.direction<0?'scaleX(-1)':''}">
+        <div class="m-nametag">${p.name}</div>
+        <div class="m-activity">${p.activity.icon} ${p.activity.label}</div>
+        <span class="m-emoji-big">${p.mascot.emoji}</span>
+        <span class="m-prop">🪑</span>
       </div>`;
-    }).join("");
+    world.appendChild(el);
+  });
+}
+
+// ---- HORSE ----
+function scheduleHorse() {
+  clearTimeout(horseTimeout);
+  const delay = (18 + Math.random()*45)*1000;
+  horseTimeout = setTimeout(doHorseVisit, delay);
+}
+function doHorseVisit() {
+  if (secondsLeft<=0) return;
+  const world = document.getElementById("world");
+  const worldW = world.offsetWidth || window.innerWidth;
+  const msg = HORSE_MSGS[Math.floor(Math.random()*HORSE_MSGS.length)];
+  world.querySelectorAll(".horse-wrap").forEach(e=>e.remove());
+  const wrap = document.createElement("div");
+  wrap.className = "horse-wrap";
+  wrap.style.left = "-140px";
+  wrap.innerHTML = `<div class="horse-speech">${msg}</div><span class="horse-emoji-el">🐴</span>`;
+  world.appendChild(wrap);
+  setTimeout(()=>{ wrap.style.left = (60+Math.random()*(worldW-260))+"px"; }, 50);
+  setTimeout(()=>{
+    wrap.style.left = (worldW+200)+"px";
+    setTimeout(()=>wrap.remove(), 1000);
+  }, 4800);
+  const next = (28+Math.random()*55)*1000;
+  horseTimeout = setTimeout(doHorseVisit, next);
+}
+
+// ---- TIMER ----
+function startTimerCountdown() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    if (secondsLeft<=0) {
+      clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
+      showDoneScreen(true); return;
+    }
+    secondsLeft--; updateTimerDisplay();
+  },1000);
+}
+function updateTimerDisplay() {
+  const m=Math.floor(secondsLeft/60), s=secondsLeft%60;
+  document.getElementById("timerDigits").textContent = m+":"+(s<10?"0":"")+s;
+}
+
+// ---- ESCAPE ----
+function showEscape() {
+  document.getElementById("escapeEmoji").textContent = sessionData.mascot.emoji;
+  document.getElementById("escapeMsg").textContent = ESCAPE_MSGS[Math.floor(Math.random()*ESCAPE_MSGS.length)];
+  showScreen("screen-escape");
+}
+function goBack() { showScreen("screen-session"); }
+function confirmEscape() {
+  document.getElementById("jailMascot").textContent = sessionData.mascot.emoji;
+  document.getElementById("jailMsg").textContent =
+    sessionData.name + "'s " + sessionData.mascot.name + " has been arrested. The task remains unfinished. No bail. 🔒";
+  document.getElementById("jailOverlay").classList.add("show");
+}
+function doEscape() {
+  document.getElementById("jailOverlay").classList.remove("show");
+  clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
+  document.getElementById("doneConfetti").textContent = "😔💔😔💔😔";
+  document.getElementById("doneMascot").textContent = sessionData.mascot.emoji+"🚔";
+  const t = document.getElementById("doneTitle");
+  t.textContent = "ESCAPED."; t.className="done-title escaped";
+  document.getElementById("doneMsg").textContent = "The task remains. The guilt is permanent. The mascot is in jail. You know what you must do.";
+  document.getElementById("doneTime").textContent = "";
+  showScreen("screen-done");
+}
+
+// ---- DONE ----
+function showDoneScreen(timeUp) {
+  clearInterval(stageInterval); clearTimeout(horseTimeout);
+  launchConfetti();
+  const elapsed = totalSeconds - secondsLeft;
+  const m=Math.floor(elapsed/60), s=elapsed%60;
+  document.getElementById("doneConfetti").textContent = "🎉✨🏆✨🎉";
+  document.getElementById("doneMascot").textContent = sessionData.mascot.emoji+"🏆";
+  const t = document.getElementById("doneTitle");
+  t.textContent = "YOU DID IT!"; t.className="done-title";
+  document.getElementById("doneMsg").textContent = DONE_MSGS[Math.floor(Math.random()*DONE_MSGS.length)];
+  document.getElementById("doneTime").textContent = "Locked in for "+m+"m "+s+"s 🔥";
+  showScreen("screen-done");
+}
+function launchConfetti() {
+  const pieces=["🎉","✨","🌸","💕","⭐","🎊","💖","🌟","🦄","🌈"];
+  for (let i=0;i<28;i++) {
+    setTimeout(()=>{
+      const el=document.createElement("div");
+      el.className="confetti-piece";
+      el.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+      el.style.left=Math.random()*100+"vw";
+      el.style.animationDuration=(1.4+Math.random()*2.2)+"s";
+      el.style.animationDelay=Math.random()*0.6+"s";
+      el.style.fontSize=(14+Math.random()*20)+"px";
+      document.body.appendChild(el);
+      setTimeout(()=>el.remove(),3800);
+    },i*55);
   }
+}
 
-  function renderLeaderboard() {
-    const lb = document.getElementById("leaderboard");
-    const myPct = getMyPct();
-    let all = [
-      { name: sessionData.name, mascot: sessionData.mascot ? sessionData.mascot.emoji : "🦆", pct: myPct, done: false, isMe: true },
-      ...FAKE_PLAYERS.map(p => ({ name: p.name, mascot: p.mascot, pct: p.elapsed / p.totalSecs, done: p.done, isMe: false }))
-    ];
-    all.sort((a, b) => {
-      if (a.done && !b.done) return -1;
-      if (!a.done && b.done) return 1;
-      return b.pct - a.pct;
-    });
+function resetAll() {
+  clearInterval(timerInterval); clearInterval(stageInterval); clearTimeout(horseTimeout);
+  document.getElementById("inp-name").value="";
+  document.getElementById("inp-task").value="";
+  document.getElementById("inp-time").value="";
+  selectedMascot=MASCOTS[0];
+  document.querySelectorAll(".mascot-opt").forEach((el,i)=>el.classList.toggle("selected",i===0));
+  showScreen("screen-checkin");
+}
 
-    lb.innerHTML = all.map((p, i) => {
-      const statusClass = p.done ? "done" : "racing";
-      const statusText = p.done ? "✅ Done!" : "⏱ " + Math.round(p.pct * 100) + "%";
-      return `<div class="lb-row">
-        <span class="lb-rank${i === 0 ? ' gold' : ''}">#${i + 1}</span>
-        <span class="lb-mascot">${p.mascot}</span>
-        <div class="lb-info">
-          <div class="lb-name">${p.name}${p.isMe ? ' (you)' : ''}</div>
-        </div>
-        <span class="lb-status ${statusClass}">${statusText}</span>
-      </div>`;
-    }).join("");
-  }
-
-  function scheduleParentCheck() {
-    clearInterval(parentCheckInterval);
-    const checkEvery = Math.max(totalSeconds * 0.3, 60);
-    let nextCheck = checkEvery + Math.random() * 30;
-    let elapsed = 0;
-    parentCheckInterval = setInterval(() => {
-      elapsed++;
-      if (elapsed >= nextCheck) {
-        triggerParentCheck();
-        nextCheck = elapsed + checkEvery + Math.random() * 20;
-      }
-    }, 1000);
-  }
-
-  function triggerParentCheck() {
-    const panel = document.getElementById("parentPanel");
-    panel.style.animation = "none";
-    panel.offsetHeight;
-    panel.style.border = "1px solid var(--red)";
-    panel.style.background = "rgba(248,113,113,0.08)";
-    setTimeout(() => {
-      panel.style.border = "1px solid var(--border)";
-      panel.style.background = "var(--card)";
-    }, 5000);
-  }
-
-  function showParentVideo() {
-    document.getElementById("ytFrame").src = "https://www.youtube.com/embed/" + PARENT_VIDEO_ID + "?autoplay=1";
-    document.getElementById("ytOverlay").classList.add("show");
-  }
-
-  function closeParentVideo() {
-    document.getElementById("ytFrame").src = "";
-    document.getElementById("ytOverlay").classList.remove("show");
-  }
-
-  function showEscape() {
-    const msg = ESCAPE_MSGS[Math.floor(Math.random() * ESCAPE_MSGS.length)];
-    document.getElementById("escapeMsg").textContent = msg;
-    showScreen("screen-escape");
-  }
-
-  function goBack() {
-    showScreen("screen-session");
-  }
-
-  function confirmEscape() {
-    clearInterval(timerInterval);
-    clearInterval(fakeInterval);
-    clearInterval(parentCheckInterval);
-    document.getElementById("doneEmoji").textContent = "😔";
-    document.getElementById("doneTitle").textContent = "ESCAPED.";
-    document.getElementById("doneTitle").style.color = "var(--red)";
-    document.getElementById("doneMsg").textContent = "You left before you were done. The task remains. The guilt remains. You know what to do.";
-    document.getElementById("doneTime").textContent = "";
-    showScreen("screen-done");
-  }
-
-  function showDoneScreen(early) {
-    clearInterval(parentCheckInterval);
-    const msgs = early ? DONE_MSGS_EARLY : DONE_MSGS_TIME;
-    const msg = msgs[Math.floor(Math.random() * msgs.length)];
-    const elapsed = totalSeconds - secondsLeft;
-    const m = Math.floor(elapsed / 60);
-    const s = elapsed % 60;
-    document.getElementById("doneEmoji").textContent = "🏆";
-    document.getElementById("doneTitle").textContent = "DONE!";
-    document.getElementById("doneTitle").style.color = "var(--green)";
-    document.getElementById("doneMsg").textContent = msg;
-    document.getElementById("doneTime").textContent = "Locked in for " + m + "m " + s + "s";
-    showScreen("screen-done");
-  }
-
-  function resetAll() {
-    clearInterval(timerInterval);
-    clearInterval(fakeInterval);
-    clearInterval(parentCheckInterval);
-    document.getElementById("name").value = "";
-    document.getElementById("task").value = "";
-    document.getElementById("time").value = "";
-    selectedMascot = MASCOTS[0];
-    document.querySelectorAll(".mascot-opt").forEach((el, i) => {
-      el.classList.toggle("selected", i === 0);
-    });
-    showScreen("screen-checkin");
-  }
-
-  buildMascotGrid();
+buildMascotGrid();
 </script>
 </body>
 </html>
